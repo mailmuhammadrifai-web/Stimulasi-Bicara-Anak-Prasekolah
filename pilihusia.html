@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stimulasi Bicara - Pilih Usia</title>
+    <style>
+        :root {
+            --primary-orange: #E67E22;
+            --dark-blue: #283593;
+            --yellow-accent: #FFB300;
+            --sky-blue: #4facfe;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: 'Arial Rounded MT Bold', 'Helvetica', sans-serif;
+        }
+
+        /* Container Utama */
+        .game-screen {
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(to bottom, var(--sky-blue) 0%, #00f2fe 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Judul Bergerak */
+        .header-section {
+            margin-top: 50px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .header-section h1 {
+            color: var(--primary-orange);
+            font-size: 2.5rem;
+            line-height: 1.1;
+            -webkit-text-stroke: 1.5px white;
+            text-shadow: 3px 3px 0px #A04000;
+            animation: float 3s ease-in-out infinite;
+            margin: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Menu Pilih Usia */
+        .menu-container {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            z-index: 10;
+            width: 100%;
+        }
+
+        .pilih-usia-text {
+            color: white;
+            font-weight: bold;
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.1);
+            padding: 5px 20px;
+            border-radius: 20px;
+        }
+
+        .btn-usia {
+            background: white;
+            color: var(--dark-blue);
+            border: 3px solid var(--yellow-accent);
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            width: 250px;
+            cursor: pointer;
+            box-shadow: 0 6px 0px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+            text-align: center;
+            outline: none;
+        }
+
+        .btn-usia:hover {
+            transform: translateY(-3px);
+            background: #fffdf0;
+            box-shadow: 0 8px 0px rgba(0,0,0,0.1);
+        }
+
+        .btn-usia:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0px rgba(0,0,0,0.1);
+        }
+
+        /* Karakter dan Ground */
+        .character-layer {
+            position: absolute;
+            bottom: 8vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            align-items: flex-end;
+            z-index: 5;
+        }
+
+        .char { 
+            font-size: 100px; 
+            filter: drop-shadow(2px 2px 0 white);
+        }
+
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 18vh;
+            background: #76C945;
+            border-top: 8px solid #64B03A;
+            border-radius: 50% 50% 0 0 / 20% 20% 0 0;
+        }
+
+        /* Animasi Daun */
+        .leaf {
+            position: absolute;
+            top: -50px;
+            pointer-events: none;
+            animation: fall linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-screen">
+        <div style="position:absolute; top:20px; left:10%; font-size:40px; opacity:0.6;">☁️</div>
+        <div style="position:absolute; top:40px; right:15%; font-size:50px; opacity:0.6;">☁️</div>
+        <div style="position:absolute; top:120px; left:25%; font-size:30px; opacity:0.4;">☁️</div>
+        
+        <div id="leaf-container"></div>
+
+        <div class="header-section">
+            <h1>Stimulasi Bicara<br>Anak Prasekolah</h1>
+        </div>
+
+        <div class="menu-container">
+            <span class="pilih-usia-text">Pilih Usia Kamu:</span>
+            <button class="btn-usia" onclick="goKenalan('3-4')">Usia 3 - 4 Tahun</button>
+            <button class="btn-usia" onclick="goKenalan('4-5')">Usia 4 - 5 Tahun</button>
+            <button class="btn-usia" onclick="goKenalan('5-6')">Usia 5 - 6 Tahun</button>
+        </div>
+
+        <div class="character-layer">
+            <div class="char">👦</div>
+            <div class="char">👧</div>
+        </div>
+
+        <div class="ground"></div>
+    </div>
+
+    <script>
+        // Efek Daun Berguguran
+        function createLeaf() {
+            const container = document.getElementById('leaf-container');
+            if(!container) return;
+            
+            const leaf = document.createElement('div');
+            const icons = ['🍂', '🍁', '🍃', '🌸'];
+            
+            leaf.classList.add('leaf');
+            leaf.innerText = icons[Math.floor(Math.random() * icons.length)];
+            leaf.style.left = Math.random() * 100 + 'vw';
+            
+            const duration = Math.random() * 5 + 5;
+            leaf.style.animationDuration = duration + 's';
+            leaf.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            
+            container.appendChild(leaf);
+            setTimeout(() => leaf.remove(), duration * 1000);
+        }
+        setInterval(createLeaf, 800);
+
+        // Fungsi Navigasi ke Halaman Kenalan
+        function goKenalan(rangeUsia) {
+            // Simpan pilihan usia agar bisa digunakan di halaman berikutnya
+            localStorage.setItem('usiaTerpilih', rangeUsia);
+            
+            // Beri sedikit feedback visual/suara (opsional) sebelum pindah
+            console.log("Memilih usia: " + rangeUsia);
+            
+            // Pindah ke halaman ayokenalan.html
+            window.location.href = 'ayokenalan.html';
+        }
+    </script>
+</body>
+</html>

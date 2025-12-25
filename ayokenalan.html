@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stimulasi Bicara - Kenalan</title>
+    <style>
+        :root {
+            --primary-orange: #E67E22;
+            --btn-yellow: #FFB300;
+            --btn-success: #27ae60;
+            --card-blue: rgba(41, 128, 185, 0.9);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: 'Arial Rounded MT Bold', 'Helvetica', sans-serif;
+        }
+
+        .game-screen {
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .header-title { margin-top: 30px; z-index: 10; text-align: center; }
+        .header-title h1 {
+            color: var(--primary-orange);
+            font-size: 2.2rem;
+            -webkit-text-stroke: 1.2px white;
+            text-shadow: 3px 3px 0px #A04000;
+            margin: 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Form Container */
+        .form-container {
+            width: 85%;
+            max-width: 350px;
+            background: var(--card-blue);
+            border-radius: 25px;
+            padding: 20px;
+            margin-top: 15px;
+            z-index: 10;
+            color: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 1.1rem; }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            box-sizing: border-box;
+            text-align: center;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .age-options { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 10px; 
+            margin-bottom: 10px; 
+        }
+        
+        .age-item {
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .age-item:has(input:checked) {
+            background: var(--btn-yellow);
+            border-color: white;
+        }
+
+        /* Tombol Sudah Jawab */
+        .btn-sudah-jawab {
+            background: var(--btn-yellow);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #D4AC0D;
+            transition: all 0.2s ease;
+        }
+
+        .btn-sudah-jawab.success {
+            background: var(--btn-success) !important;
+            box-shadow: 0 4px 0 #1e8449 !important;
+        }
+
+        .footer-note { font-size: 0.7rem; margin-top: 5px; text-align: center; opacity: 0.9; font-style: italic; }
+
+        /* Tombol Lanjutkan */
+        .btn-lanjutkan {
+            margin-top: 20px;
+            background: #fff;
+            color: #2980b9;
+            border: none;
+            padding: 15px 60px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 20;
+            box-shadow: 0 6px 0px #bdc3c7;
+            transition: all 0.2s;
+        }
+
+        .btn-lanjutkan:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0px #bdc3c7;
+        }
+
+        /* Modal Hebat */
+        #pesan-hebat {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            color: var(--primary-orange);
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 0 0 999px rgba(0,0,0,0.6);
+            z-index: 100;
+            display: none;
+            border: 8px solid var(--btn-yellow);
+            width: 80%;
+            max-width: 300px;
+        }
+
+        /* Ground Decoration */
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 12vh;
+            background: #76C945;
+            border-top: 5px solid #64B03A;
+            border-radius: 50% 50% 0 0 / 20% 20% 0 0;
+            z-index: 2;
+        }
+
+        .leaf { position: absolute; top: -50px; animation: fall linear infinite; z-index: 1; pointer-events: none; }
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-screen">
+        <div id="leaf-container"></div>
+
+        <div class="header-title">
+            <h1>Yuk, kita kenalan!</h1>
+        </div>
+
+        <div class="form-container">
+            <div class="form-group">
+                <label>Siapa Namamu?</label>
+                <input type="text" id="inputNama" placeholder="Ketik namamu..." autocomplete="off">
+                <button class="btn-sudah-jawab" id="btnNama" onclick="jawab('nama')">Sudah Jawab</button>
+                <div class="footer-note">Nama akan muncul di profilmu.</div>
+            </div>
+
+            <div class="form-group">
+                <label>Berapa Umurmu?</label>
+                <div class="age-options">
+                    <label class="age-item"><input type="radio" name="umur" value="3"> 3 Thn</label>
+                    <label class="age-item"><input type="radio" name="umur" value="4"> 4 Thn</label>
+                    <label class="age-item"><input type="radio" name="umur" value="5"> 5 Thn</label>
+                    <label class="age-item"><input type="radio" name="umur" value="6"> 6 Thn</label>
+                </div>
+                <button class="btn-sudah-jawab" id="btnUmur" onclick="jawab('umur')">Sudah Jawab</button>
+            </div>
+        </div>
+
+        <button class="btn-lanjutkan" onclick="tampilkanHebat()">Lanjutkan</button>
+
+        <div class="ground"></div>
+    </div>
+
+    <div id="pesan-hebat">
+        <span style="font-size: 3rem;">🎉</span><br>
+        Kamu hebat banget, <br>
+        <span id="nama-display" style="color: #2980b9;"></span>! <br>
+        <small style="font-size: 1rem; color: #7f8c8d;">Ayo kita mulai!</small>
+    </div>
+
+    <script>
+        // Animasi Daun Berguguran
+        function createLeaf() {
+            const container = document.getElementById('leaf-container');
+            if(!container) return;
+            const leaf = document.createElement('div');
+            leaf.classList.add('leaf');
+            leaf.innerText = ['🍂', '🍁', '🍃', '✨'][Math.floor(Math.random() * 4)];
+            leaf.style.left = Math.random() * 100 + 'vw';
+            const duration = Math.random() * 4 + 4;
+            leaf.style.animationDuration = duration + 's';
+            leaf.style.fontSize = Math.random() * 20 + 10 + 'px';
+            container.appendChild(leaf);
+            setTimeout(() => leaf.remove(), duration * 1000);
+        }
+        setInterval(createLeaf, 700);
+
+        // Fungsi klik "Sudah Jawab"
+        function jawab(tipe) {
+            if (tipe === 'nama') {
+                const nama = document.getElementById('inputNama').value.trim();
+                if (!nama) {
+                    alert("Ketik namamu dulu ya sayang!");
+                    return;
+                }
+                const btn = document.getElementById('btnNama');
+                btn.innerText = "Selesai! ✅";
+                btn.classList.add('success');
+                localStorage.setItem('namaUser', nama); // Simpan nama
+            } else {
+                const umur = document.querySelector('input[name="umur"]:checked');
+                if (!umur) {
+                    alert("Pilih umurmu dulu ya!");
+                    return;
+                }
+                const btn = document.getElementById('btnUmur');
+                btn.innerText = "Selesai! ✅";
+                btn.classList.add('success');
+                localStorage.setItem('umurUser', umur.value); // Simpan umur
+            }
+        }
+
+        // Fungsi Akhir & Pindah ke Dashboard
+        function tampilkanHebat() {
+            const nama = localStorage.getItem('namaUser');
+            const umur = localStorage.getItem('umurUser');
+
+            if (!nama || !umur) {
+                alert("Pastikan klik tombol 'Sudah Jawab' untuk nama dan umur ya!");
+                return;
+            }
+
+            // Tampilkan Modal
+            document.getElementById('nama-display').innerText = nama;
+            const modal = document.getElementById('pesan-hebat');
+            modal.style.display = 'block';
+
+            // Pindah ke Dashboard setelah 2.5 detik
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 2500);
+        }
+    </script>
+</body>
+</html>

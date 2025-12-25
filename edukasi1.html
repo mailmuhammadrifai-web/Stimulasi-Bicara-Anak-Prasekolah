@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edukasi 1 - Perkembangan Bicara</title>
+    <style>
+        :root {
+            --primary-orange: #E67E22;
+            --text-blue: #3498db;
+            --shadow-blue: #2980b9;
+            --content-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: 'Arial Rounded MT Bold', sans-serif;
+        }
+
+        .game-screen {
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* --- Header --- */
+        .header {
+            margin-top: 30px;
+            z-index: 10;
+            text-align: center;
+            padding: 0 15px;
+        }
+
+        .header h1 {
+            color: var(--primary-orange);
+            font-size: 1.8rem;
+            -webkit-text-stroke: 1px white;
+            text-shadow: 3px 3px 0px #A04000;
+            margin: 0;
+        }
+
+        /* --- Box Konten Materi --- */
+        .content-container {
+            width: 85%;
+            max-width: 500px;
+            height: 60vh;
+            background: var(--content-bg);
+            margin-top: 20px;
+            border-radius: 25px;
+            padding: 20px;
+            z-index: 10;
+            overflow-y: auto; /* Agar bisa di-scroll jika teks panjang */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border: 4px solid white;
+        }
+
+        .content-container h2 {
+            color: var(--text-blue);
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .content-container p {
+            color: #444;
+            line-height: 1.6;
+            font-size: 1rem;
+            text-align: justify;
+        }
+
+        .content-container ul {
+            padding-left: 20px;
+            color: #444;
+        }
+
+        .content-container li {
+            margin-bottom: 10px;
+        }
+
+        /* --- Tombol Kembali --- */
+        .btn-kembali {
+            margin-top: 20px;
+            background: white;
+            color: var(--shadow-blue);
+            border: none;
+            padding: 10px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 20;
+            box-shadow: 0 4px 0px #ddd;
+            transition: all 0.2s;
+        }
+
+        .btn-kembali:active {
+            transform: translateY(4px);
+            box-shadow: 0 0px 0px #ddd;
+        }
+
+        /* --- Dekorasi --- */
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 10vh;
+            background: #76C945;
+            border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+            z-index: 5;
+        }
+
+        .leaf {
+            position: absolute;
+            top: -50px;
+            z-index: 2;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-screen">
+        <div id="leaf-container"></div>
+
+        <div class="header">
+            <h1>Edukasi Orang Tua</h1>
+        </div>
+
+        <div class="content-container">
+            <h2>Perkembangan Bicara Usia 3-6 Tahun</h2>
+            <p>
+                Pada rentang usia ini, kemampuan bahasa anak berkembang sangat pesat. Anak mulai mampu menyusun kalimat yang lebih kompleks dan memahami instruksi yang lebih panjang.
+            </p>
+            <ul>
+                <li><strong>Usia 3-4 Tahun:</strong> Anak mulai menggunakan kalimat dengan 4 kata atau lebih dan bisa bercerita tentang kegiatannya.</li>
+                <li><strong>Usia 4-5 Tahun:</strong> Anak mampu menggunakan kalimat yang tata bahasanya sebagian besar sudah benar dan bicaranya jelas dipahami orang lain.</li>
+                <li><strong>Usia 5-6 Tahun:</strong> Anak sudah memiliki kosa kata yang kaya, bisa berdialog, dan mulai memahami konsep waktu serta urutan cerita.</li>
+            </ul>
+            <p>
+                Penting bagi orang tua untuk terus memberikan stimulasi dengan cara mengajak bicara, membacakan buku, dan mendengarkan cerita anak dengan sabar.
+            </p>
+        </div>
+
+        <button class="btn-kembali" onclick="location.href='edukasiorangtua.html'">Kembali</button>
+
+        <div class="ground"></div>
+    </div>
+
+    <script>
+        function createLeaf() {
+            const container = document.getElementById('leaf-container');
+            const leaf = document.createElement('div');
+            const icons = ['🍂', '🍁', '🍃'];
+            leaf.classList.add('leaf');
+            leaf.innerText = icons[Math.floor(Math.random() * icons.length)];
+            leaf.style.left = Math.random() * 100 + 'vw';
+            const duration = Math.random() * 5 + 5;
+            leaf.style.animationDuration = duration + 's';
+            leaf.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            container.appendChild(leaf);
+            setTimeout(() => leaf.remove(), duration * 1000);
+        }
+        setInterval(createLeaf, 800);
+    </script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pra Skrining / Penilaian</title>
+    <style>
+        :root {
+            --primary-orange: #E67E22;
+            --text-blue: #3498db;
+            --shadow-blue: #2980b9;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: 'Arial Rounded MT Bold', 'Helvetica', sans-serif;
+        }
+
+        .game-screen {
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* --- Header Judul --- */
+        .header {
+            margin-top: 40px;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: var(--primary-orange);
+            font-size: 2rem;
+            -webkit-text-stroke: 1.2px white;
+            text-shadow: 4px 4px 0px #A04000;
+            margin: 0;
+            animation: floatTitle 3s ease-in-out infinite;
+        }
+
+        @keyframes floatTitle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* --- List Menu Skrining --- */
+        .menu-list {
+            width: 85%;
+            max-width: 380px;
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 20px;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 6px 0px #ddd;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: 3px solid transparent;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .menu-item:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0px #ddd;
+        }
+
+        /* Memberi warna border berbeda agar ceria */
+        .menu-item:nth-child(1) { border-color: #FFB300; }
+        .menu-item:nth-child(2) { border-color: #2ecc71; }
+        .menu-item:nth-child(3) { border-color: #e67e22; }
+        .menu-item:nth-child(4) { border-color: #9b59b6; }
+
+        .menu-text {
+            color: var(--text-blue);
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 0px #eee;
+        }
+
+        /* --- Tombol Kembali --- */
+        .btn-kembali {
+            position: absolute;
+            bottom: 30px;
+            background: white;
+            color: #2c3e50;
+            border: none;
+            padding: 12px 45px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 20;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: 0.2s;
+        }
+
+        .btn-kembali:active {
+            transform: scale(0.95);
+        }
+
+        /* --- Latar Belakang Dekoratif --- */
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 12vh;
+            background: #76C945;
+            border-top: 5px solid #64B03A;
+            border-radius: 50% 50% 0 0 / 20% 20% 0 0;
+            z-index: 5;
+        }
+
+        .cloud { position: absolute; opacity: 0.6; z-index: 1; pointer-events: none; }
+        .leaf { position: absolute; top: -50px; z-index: 2; pointer-events: none; animation: fall linear infinite; }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-screen">
+        <div id="leaf-container"></div>
+
+        <div class="cloud" style="top:20px; left:5%; font-size:40px;">☁️</div>
+        <div class="cloud" style="top:60px; right:8%; font-size:50px;">☁️</div>
+
+        <div class="header">
+            <h1>Pra Skrining/Penilaian</h1>
+        </div>
+
+        <div class="menu-list">
+            <button class="menu-item" onclick="location.href='3tahun.html'">
+                <div class="menu-text">36 BULAN / 3 TAHUN</div>
+            </button>
+
+            <button class="menu-item" onclick="location.href='4tahun.html'">
+                <div class="menu-text">48 BULAN / 4 TAHUN</div>
+            </button>
+
+            <button class="menu-item" onclick="location.href='5tahun.html'">
+                <div class="menu-text">60 BULAN / 5 TAHUN</div>
+            </button>
+
+            <button class="menu-item" onclick="location.href='6tahun.html'">
+                <div class="menu-text">72 BULAN / 6 TAHUN</div>
+            </button>
+        </div>
+
+        <button class="btn-kembali" onclick="location.href='dashboard.html'">Kembali</button>
+
+        <div class="ground"></div>
+    </div>
+
+    <script>
+        function createLeaf() {
+            const container = document.getElementById('leaf-container');
+            const leaf = document.createElement('div');
+            const icons = ['🍂', '🍁', '🍃', '🌸'];
+            leaf.classList.add('leaf');
+            leaf.innerText = icons[Math.floor(Math.random() * icons.length)];
+            leaf.style.left = Math.random() * 100 + 'vw';
+            const duration = Math.random() * 5 + 5;
+            leaf.style.animationDuration = duration + 's';
+            leaf.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            container.appendChild(leaf);
+            setTimeout(() => leaf.remove(), duration * 1000);
+        }
+        setInterval(createLeaf, 800);
+    </script>
+</body>
+</html>

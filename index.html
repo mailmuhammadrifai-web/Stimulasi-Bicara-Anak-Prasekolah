@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stimulasi Bicara Anak Prasekolah</title>
+    <style>
+        /* --- CSS STYLE --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: 'Arial Rounded MT Bold', 'Helvetica', sans-serif;
+        }
+
+        .game-container {
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .cloud {
+            position: absolute;
+            font-size: 50px;
+            color: white;
+            opacity: 0.8;
+            filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.1));
+        }
+        .cloud1 { top: 20px; left: 10%; animation: floatCloud 20s linear infinite; }
+        .cloud2 { top: 50px; right: 15%; animation: floatCloud 25s linear reverse infinite; }
+        
+        @keyframes floatCloud {
+            from { transform: translateX(-50px); }
+            to { transform: translateX(50px); }
+        }
+
+        .main-title {
+            margin-top: 60px;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .main-title h1 {
+            color: #E67E22; 
+            font-size: 2.8rem;
+            line-height: 1.1;
+            text-transform: capitalize;
+            -webkit-text-stroke: 1.5px white;
+            text-shadow: 4px 4px 0px #A04000;
+            animation: floatingText 3s ease-in-out infinite;
+        }
+
+        @keyframes floatingText {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+        }
+
+        .subtitle {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            margin-top: 10px;
+        }
+
+        .selection-area {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 500px;
+            margin-top: 40px;
+            z-index: 5;
+        }
+
+        .char-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .speech-bubble {
+            background: white;
+            border: 3px solid #555;
+            border-radius: 40px;
+            padding: 15px 25px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 15px solid #555;
+        }
+
+        .label-boy { color: #E67E22; font-weight: bold; }
+        .label-girl { color: #E74C3C; font-weight: bold; }
+
+        .btn-oke {
+            background: #F1C40F;
+            border: none;
+            padding: 5px 20px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #D4AC0D;
+            transition: transform 0.1s;
+        }
+
+        .btn-oke:active { transform: translateY(3px); box-shadow: 0 1px 0 #D4AC0D; }
+
+        .char-img { font-size: 100px; }
+
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 20vh;
+            background: #76C945;
+            border-top: 8px solid #64B03A;
+            border-radius: 50% 50% 0 0 / 20% 20% 0 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .leaf {
+            position: absolute;
+            top: -50px;
+            z-index: 1;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <div id="leaf-layer"></div>
+        <div class="cloud cloud1">☁️</div>
+        <div class="cloud cloud2">☁️</div>
+
+        <div class="main-title">
+            <h1>Stimulasi Bicara<br>Anak Prasekolah</h1>
+            <div class="subtitle">Pilih Suara</div>
+        </div>
+
+        <div class="selection-area">
+            <div class="char-group">
+                <div class="speech-bubble">
+                    <span class="label-boy">Boy</span>
+                    <button class="btn-oke" onclick="selectVoice('Boy')">Oke</button>
+                </div>
+                <div class="char-img">👦</div>
+            </div>
+
+            <div class="char-group">
+                <div class="speech-bubble">
+                    <span class="label-girl">Girl</span>
+                    <button class="btn-oke" onclick="selectVoice('Girl')">Oke</button>
+                </div>
+                <div class="char-img">👧</div>
+            </div>
+        </div>
+
+        <div class="ground">
+            <div style="font-size: 40px; margin-top: 20px;">🌲 &nbsp; &nbsp; 🌳</div>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop autoplay>
+        <source src="musiklatar.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="voiceInstruction" autoplay>
+        <source src="pilihsuara.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        /* --- JAVASCRIPT LOGIC --- */
+
+        const bgMusic = document.getElementById('bgMusic');
+        const voiceInstruction = document.getElementById('voiceInstruction');
+
+        // Pengaturan Volume
+        bgMusic.volume = 0.15;
+        voiceInstruction.volume = 1;
+
+        // Fungsi Autoplay saat halaman dimuat
+        window.addEventListener('load', () => {
+            const playAttempt = () => {
+                bgMusic.play().catch(e => console.log("Autoplay diblokir browser"));
+                voiceInstruction.play().catch(e => console.log("Autoplay diblokir browser"));
+            };
+            
+            playAttempt();
+            
+            // Back-up: Jika autoplay murni gagal, suara akan bunyi begitu kursor bergerak 
+            // atau layar disentuh (interaksi minimal)
+            window.addEventListener('mouseover', playAttempt, { once: true });
+            window.addEventListener('touchstart', playAttempt, { once: true });
+        });
+
+        // Efek Daun Gugur
+        function createLeaf() {
+            const leafLayer = document.getElementById('leaf-layer');
+            const leaf = document.createElement('div');
+            const leafTypes = ['🍂', '🍁', '🍃'];
+            leaf.classList.add('leaf');
+            leaf.innerText = leafTypes[Math.floor(Math.random() * leafTypes.length)];
+            const startPos = Math.random() * window.innerWidth;
+            const duration = Math.random() * 5 + 5; 
+            leaf.style.left = startPos + 'px';
+            leaf.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            leaf.style.animationDuration = duration + 's';
+            leafLayer.appendChild(leaf);
+            setTimeout(() => { leaf.remove(); }, duration * 1000);
+        }
+        setInterval(createLeaf, 600);
+
+        function selectVoice(gender) {
+            if (gender === 'Boy') {
+                window.location.href = "peringatan.html";
+            } else {
+                alert("Anda memilih suara: " + gender);
+            }
+        }
+    </script>
+
+</body>
+</html>

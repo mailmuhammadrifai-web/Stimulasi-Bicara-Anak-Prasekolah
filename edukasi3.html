@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edukasi 3 - Peran Orang Tua & Lingkungan</title>
+    <style>
+        :root {
+            --primary-orange: #E67E22;
+            --text-blue: #3498db;
+            --shadow-blue: #2980b9;
+            --content-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: 'Arial Rounded MT Bold', sans-serif;
+        }
+
+        .game-screen {
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* --- Header --- */
+        .header {
+            margin-top: 30px;
+            z-index: 10;
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        .header h1 {
+            color: var(--text-blue);
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            -webkit-text-stroke: 1px white;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        /* --- Box Konten --- */
+        .content-container {
+            width: 85%;
+            max-width: 450px;
+            background: var(--content-bg);
+            margin-top: 15px;
+            border-radius: 25px;
+            padding: 20px;
+            z-index: 10;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            color: #2c3e50;
+            overflow-y: auto;
+        }
+
+        .intro-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .info-list li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .info-list li::before {
+            content: "•";
+            color: #2980b9;
+            font-size: 1.5rem;
+            margin-right: 10px;
+            margin-top: -5px;
+        }
+
+        .info-list b {
+            color: #2980b9;
+            display: block;
+        }
+
+        /* --- Tombol Kembali --- */
+        .btn-kembali {
+            margin-top: auto;
+            margin-bottom: 30px;
+            background: white;
+            color: #2c3e50;
+            border: none;
+            padding: 10px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 20;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* --- Dekorasi --- */
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 12vh;
+            background: #76C945;
+            border-radius: 50% 50% 0 0 / 20% 20% 0 0;
+            z-index: 5;
+        }
+
+        .leaf {
+            position: absolute;
+            top: -50px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-screen">
+        <div id="leaf-container"></div>
+
+        <div class="header">
+            <h1>PERAN ORANG TUA &<br>LINGKUNGAN</h1>
+        </div>
+
+        <div class="content-container">
+            <p class="intro-text">
+                Orang tua adalah "model bahasa" utama bagi anak. Lingkungan yang kaya stimulasi verbal jauh lebih efektif daripada aplikasi edukasi mana pun.
+            </p>
+            
+            <ul class="info-list">
+                <li>
+                    <span><b>Model Komunikasi:</b> Orang tua harus berbicara dengan artikulasi jelas (hindari bicara cadel yang dibuat-buat).</span>
+                </li>
+                <li>
+                    <span><b>Pendengar Aktif:</b> Memberikan perhatian penuh saat anak mencoba bicara, agar mereka merasa dihargai.</span>
+                </li>
+                <li>
+                    <span><b>Lingkungan Kaya Bahasa:</b> Membacakan buku, menyanyi, dan menceritakan aktivitas sehari-hari di rumah.</span>
+                </li>
+            </ul>
+        </div>
+
+        <button class="btn-kembali" onclick="location.href='edukasiorangtua.html'">Kembali</button>
+
+        <div class="ground"></div>
+    </div>
+
+    <script>
+        function createLeaf() {
+            const container = document.getElementById('leaf-container');
+            const leaf = document.createElement('div');
+            const icons = ['🍂', '🍁', '🍃'];
+            leaf.classList.add('leaf');
+            leaf.innerText = icons[Math.floor(Math.random() * 3)];
+            leaf.style.left = Math.random() * 100 + 'vw';
+            const duration = Math.random() * 5 + 5;
+            leaf.style.animationDuration = duration + 's';
+            container.appendChild(leaf);
+            setTimeout(() => leaf.remove(), duration * 1000);
+        }
+        setInterval(createLeaf, 800);
+    </script>
+</body>
+</html>
