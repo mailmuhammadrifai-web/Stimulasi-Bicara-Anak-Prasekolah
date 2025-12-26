@@ -100,11 +100,14 @@
 </head>
 <body>
 
+<audio id="audio-player"></audio>
+<audio id="audio-success" src="sudahjawab.mp3"></audio>
+
 <div class="container">
     <div class="header"><h1>CERITAKAN PENDAPATMU</h1></div>
     <div class="target-box">Target: Kalimat Kompleks & Pendapat</div>
     
-    <div class="point-badge">Bintang Prestasi: <span id="current-points">0</span> / 10</div>
+    <div class="point-badge">Bintang Prestasi: <span id="current-points">0</span> / 4</div>
 
     <div class="situation-card">
         <div class="image-container">
@@ -140,21 +143,25 @@
     const daftarSituasi = [
         {
             img: 'berbagi.jpg',
-            q: '🔊 "Jika kamu punya dua kue dan temanmu tidak punya, apa yang akan kamu lakukan? Mengapa?"',
+            audio: 'situasi1.mp3',
+            q: '🔊 "Menurutmu, apa yang harus dilakukan jika melihat teman yang sedih?"',
             hint: 'Contoh: Saya akan berbagi karena kasihan melihat teman tidak makan.'
         },
         {
             img: 'antri.jpg',
+            audio: 'situasi2.mp3',
             q: '🔊 "Mengapa kita harus mengantri saat ingin bermain perosotan di sekolah?"',
             hint: 'Contoh: Supaya tidak berebut dan tidak ada yang jatuh terluka.'
         },
         {
             img: 'bereskanmainan.jpg',
+            audio: 'situasi3.mp3',
             q: '🔊 "Apa pendapatmu jika mainan dibiarkan berantakan setelah bermain?"',
             hint: 'Contoh: Tidak bagus karena nanti rumah jadi kotor dan mainan bisa injak.'
         },
         {
             img: 'tolongteman.jpg',
+            audio: 'situasi4.mp3',
             q: '🔊 "Bagaimana perasaanmu jika bisa membantu orang lain? Ceritakan ya!"',
             hint: 'Contoh: Saya merasa senang sekali karena bisa menjadi anak yang baik.'
         }
@@ -162,18 +169,31 @@
 
     let currentIdx = 0;
     let points = 0;
+    const player = document.getElementById('audio-player');
+    const successAudio = document.getElementById('audio-success');
 
     function putarPertanyaan() {
-        alert("Pertanyaan: " + daftarSituasi[currentIdx].q.replace('🔊 ', ''));
+        player.src = daftarSituasi[currentIdx].audio;
+        player.play().catch(error => {
+            console.error("Gagal memutar audio:", error);
+            // Fallback jika file audio tidak ada
+            alert("Pertanyaan: " + daftarSituasi[currentIdx].q.replace('🔊 ', ''));
+        });
     }
 
     function berhasil() {
+        // Mainkan suara apresiasi
+        successAudio.currentTime = 0;
+        successAudio.play();
+
         points++;
         document.getElementById('current-points').innerText = points;
         
-        if (points >= 10) {
-            alert("Selamat! Anak Anda siap untuk tantangan baru di sekolah!");
-            location.href = 'dashboard.html';
+        if (points >= 4) {
+            setTimeout(() => {
+                alert("Selamat! Anak Anda siap untuk tantangan baru di sekolah!");
+                location.href = 'dashboard.html';
+            }, 500);
         } else {
             document.getElementById('popup-congrats').style.display = 'flex';
         }
@@ -188,6 +208,9 @@
         currentIdx = (currentIdx + 1) % daftarSituasi.length;
         document.getElementById('situation-img').src = daftarSituasi[currentIdx].img;
         document.getElementById('question-text').innerText = daftarSituasi[currentIdx].q;
+        // Hentikan suara pertanyaan sebelumnya jika masih berbunyi
+        player.pause();
+        player.currentTime = 0;
     }
 </script>
 

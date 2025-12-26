@@ -97,6 +97,8 @@
             border: 2px solid transparent;
         }
         
+        .age-item input { cursor: pointer; }
+
         .age-item:has(input:checked) {
             background: var(--btn-yellow);
             border-color: white;
@@ -163,6 +165,12 @@
             border: 8px solid var(--btn-yellow);
             width: 80%;
             max-width: 300px;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
 
         /* Ground Decoration */
@@ -185,6 +193,14 @@
     </style>
 </head>
 <body>
+
+    <audio id="musikLatar" loop>
+        <source src="musiklatar.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="audioHebat">
+        <source src="sudahjawab.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="game-screen">
         <div id="leaf-container"></div>
@@ -226,6 +242,23 @@
     </div>
 
     <script>
+        const bgMusic = document.getElementById('musikLatar');
+        bgMusic.volume = 0.4; // Atur volume musik latar (0.0 sampai 1.0)
+
+        // Fungsi untuk memulai musik saat ada interaksi pertama
+        function startMusic() {
+            bgMusic.play().catch(e => console.log("Menunggu interaksi untuk musik"));
+            // Hapus listener setelah musik berhasil diputar sekali
+            document.removeEventListener('click', startMusic);
+            document.removeEventListener('touchstart', startMusic);
+            document.removeEventListener('keydown', startMusic);
+        }
+
+        // Jalankan musik pada interaksi apapun
+        document.addEventListener('click', startMusic);
+        document.addEventListener('touchstart', startMusic);
+        document.addEventListener('keydown', startMusic);
+
         // Animasi Daun Berguguran
         function createLeaf() {
             const container = document.getElementById('leaf-container');
@@ -253,7 +286,7 @@
                 const btn = document.getElementById('btnNama');
                 btn.innerText = "Selesai! ✅";
                 btn.classList.add('success');
-                localStorage.setItem('namaUser', nama); // Simpan nama
+                localStorage.setItem('namaUser', nama);
             } else {
                 const umur = document.querySelector('input[name="umur"]:checked');
                 if (!umur) {
@@ -263,7 +296,7 @@
                 const btn = document.getElementById('btnUmur');
                 btn.innerText = "Selesai! ✅";
                 btn.classList.add('success');
-                localStorage.setItem('umurUser', umur.value); // Simpan umur
+                localStorage.setItem('umurUser', umur.value);
             }
         }
 
@@ -277,15 +310,19 @@
                 return;
             }
 
-            // Tampilkan Modal
+            // 1. Putar Suara "Wah kamu hebat"
+            const audio = document.getElementById('audioHebat');
+            audio.play().catch(error => console.log("Audio playback failed:", error));
+
+            // 2. Tampilkan Modal
             document.getElementById('nama-display').innerText = nama;
             const modal = document.getElementById('pesan-hebat');
             modal.style.display = 'block';
 
-            // Pindah ke Dashboard setelah 2.5 detik
+            // 3. Pindah ke Dashboard setelah 3.5 detik
             setTimeout(() => {
                 window.location.href = 'dashboard.html';
-            }, 2500);
+            }, 3500);
         }
     </script>
 </body>

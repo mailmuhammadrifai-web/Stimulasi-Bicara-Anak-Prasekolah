@@ -34,7 +34,6 @@
             font-weight: bold; margin-bottom: 20px; display: inline-block;
         }
 
-        /* Card Aktivitas */
         .activity-card {
             background: white; border-radius: 30px;
             padding: 20px; margin: 10px 0;
@@ -58,7 +57,7 @@
         .visual-box img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Gambar akan memenuhi area box dengan rapi */
+            object-fit: cover;
         }
 
         .question-box {
@@ -68,7 +67,6 @@
             line-height: 1.4;
         }
 
-        /* Tombol */
         .btn-group { display: grid; gap: 10px; }
         .btn-main {
             background: white; color: #333; border: none;
@@ -83,10 +81,8 @@
             box-shadow: 0 5px 0 #27ae60;
         }
 
-        /* Navigation */
         .nav-footer { margin-top: 30px; }
 
-        /* Overlays */
         .overlay {
             display: none; position: fixed; top: 0; left: 0;
             width: 100%; height: 100%; background: rgba(0,0,0,0.8);
@@ -100,9 +96,12 @@
 </head>
 <body>
 
+<audio id="audio-player"></audio>
+<audio id="audio-success" src="sudahjawab.mp3"></audio>
+
 <div class="container">
     <div class="header"><h1>CERITA DARI GAMBAR</h1></div>
-    <div class="point-badge">Skor Hebat: <span id="current-points">0</span> / 10</div>
+    <div class="point-badge">Skor Hebat: <span id="current-points">0</span> / 6</div>
 
     <div class="activity-card">
         <div class="visual-box">
@@ -110,11 +109,11 @@
         </div>
         
         <div class="question-box">
-            <span id="audio-text">🔊 "Siapa yang sedang bermain? Apa yang dia lakukan?"</span>
+            <span id="audio-text">🔊 "Lihat! Siapa yang sedang bermain? Apa yang dia lakukan?"</span>
         </div>
 
         <div class="btn-group">
-            <button class="btn-main" onclick="putarAudio()">🔊 Ulangi Pertanyaan</button>
+            <button class="btn-main" onclick="putarAudio()">🔊 Putar Pertanyaan</button>
             <button class="btn-main btn-success" onclick="cekJawaban()">✅ Anak Bisa Menjawab</button>
             <button class="btn-main" style="background: #eee;" onclick="nextStory()">Ganti Gambar ➡️</button>
         </div>
@@ -136,29 +135,40 @@
 
 <script>
     const materi = [
-        { src: 'bermainbola.jpg', q: '🔊 "Lihat! Siapa yang sedang bermain? Apa yang dia lakukan?"' },
-        { src: 'makanapel.png', q: '🔊 "Siapa yang sedang lapar? Dia sedang makan apa?"' },
-        { src: 'naiksepeda.jpg', q: '🔊 "Siapa yang di taman? Apa yang dia kendarai?"' },
-        { src: 'mandi.jpg', q: '🔊 "Siapa yang di kamar mandi? Apa yang dia lakukan?"' },
-        { src: 'ibumenyapu.jpg', q: '🔊 "Siapa yang rajin? Apa yang Ibu lakukan?"' },
-        { src: 'cucimobil.jpg', q: '🔊 "Siapa yang menyetir? Mobilnya warna apa?"' }
+        { src: 'bermainbola.jpg', audio: 'kegiatan1.mp3', q: '🔊 "Lihat! Siapa yang sedang bermain? Apa yang dia lakukan?"' },
+        { src: 'makanapel.png', audio: 'kegiatan2.mp3', q: '🔊 "Siapa yang sedang lapar? Dia sedang makan apa?"' },
+        { src: 'naiksepeda.jpg', audio: 'kegiatan3.mp3', q: '🔊 "Siapa yang di taman? Apa yang dia kendarai?"' },
+        { src: 'mandi.jpg', audio: 'kegiatan4.mp3', q: '🔊 "Siapa yang di kamar mandi? Apa yang dia lakukan?"' },
+        { src: 'ibumenyapu.jpg', audio: 'kegiatan5.mp3', q: '🔊 "Siapa yang rajin? Apa yang dia lakukan?"' },
+        { src: 'cucimobil.jpg', audio: 'kegiatan6.mp3', q: '🔊 "Siapa yang mencuci? Apa yang dicuci?"' }
     ];
 
     let currentIdx = 0;
     let points = 0;
+    const player = document.getElementById('audio-player');
+    const successPlayer = document.getElementById('audio-success');
 
     function putarAudio() {
-        // Simulasi suara dengan notifikasi teks
-        alert("Suara Pertanyaan: " + materi[currentIdx].q.replace('🔊 ', ''));
+        player.src = materi[currentIdx].audio;
+        player.play().catch(error => {
+            console.log("Audio play diproteksi atau file tidak ditemukan:", error);
+            alert("Suara Pertanyaan: " + materi[currentIdx].q.replace('🔊 ', ''));
+        });
     }
 
     function cekJawaban() {
+        // Mainkan suara keberhasilan
+        successPlayer.currentTime = 0; // Reset ke awal jika diklik cepat
+        successPlayer.play().catch(e => console.log("Gagal memutar sudahjawab.mp3"));
+
         points++;
         document.getElementById('current-points').innerText = points;
         
-        if (points >= 10) {
-            alert("Luar Biasa! Kamu sudah mengumpulkan 10 poin hadiah!");
-            location.href = 'dashboard.html';
+        if (points >= 6) {
+            setTimeout(() => {
+                alert("Luar Biasa! Kamu sudah mengumpulkan 10 poin hadiah!");
+                location.href = 'dashboard.html';
+            }, 500); // Delay sedikit agar suara sempat terdengar
         } else {
             document.getElementById('popup-hebat').style.display = 'flex';
         }
@@ -174,6 +184,10 @@
         document.getElementById('visual-img').src = materi[currentIdx].src;
         document.getElementById('audio-text').innerText = materi[currentIdx].q;
     }
+
+    window.onload = () => {
+        console.log("Halaman siap.");
+    };
 </script>
 
 </body>

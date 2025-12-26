@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stimulasi 5 Tahun/60 Bulan - Cerita Berurutan</title>
+    <title>Stimulasi 5 Tahun - Cerita Berurutan</title>
     <style>
         :root {
             --primary-orange: #FF6B35;
@@ -34,7 +34,6 @@
             font-weight: bold; margin-bottom: 20px; display: inline-block;
         }
 
-        /* Card Cerita */
         .story-card {
             background: white; border-radius: 30px;
             padding: 20px; margin: 10px 0;
@@ -42,7 +41,6 @@
             color: #333;
         }
 
-        /* Grid Gambar Berurutan */
         .sequence-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -87,7 +85,6 @@
             text-align: left;
         }
 
-        /* Tombol */
         .btn-group { display: flex; flex-direction: column; gap: 10px; }
         .btn-main {
             background: white; color: #333; border: none;
@@ -108,10 +105,8 @@
             box-shadow: 0 5px 0 #8e44ad;
         }
 
-        /* Navigation */
         .nav-footer { margin-top: 30px; }
 
-        /* Overlay Popup */
         .overlay {
             display: none; position: fixed; top: 0; left: 0;
             width: 100%; height: 100%; background: rgba(0,0,0,0.8);
@@ -125,22 +120,25 @@
 </head>
 <body>
 
+<audio id="audio-cerita"></audio>
+<audio id="audio-sukses" src="sudahjawab.mp3"></audio>
+
 <div class="container">
     <div class="header"><h1>CERITA BERURUTAN</h1></div>
-    <div class="point-badge">Skor Pintar: <span id="current-points">0</span> / 10</div>
+    <div class="point-badge">Skor Pintar: <span id="current-points">0</span> / 3</div>
 
     <div class="story-card">
         <div class="sequence-grid">
             <div>
-                <div class="img-box"><img id="img1" src="kue1.jpg"></div>
+                <div class="img-box"><img id="img1" src="tanam1.jpg"></div>
                 <span class="label-step">Awal</span>
             </div>
             <div>
-                <div class="img-box"><img id="img2" src="kue2.jpg"></div>
+                <div class="img-box"><img id="img2" src="tanam2.jpg"></div>
                 <span class="label-step">Lalu</span>
             </div>
             <div>
-                <div class="img-box"><img id="img3" src="kue3.jpeg"></div>
+                <div class="img-box"><img id="img3" src="tanam3.jpg"></div>
                 <span class="label-step">Akhir</span>
             </div>
         </div>
@@ -174,37 +172,52 @@
     const kumpulanCerita = [
         {
             imgs: ['tanam1.jpg', 'tanam2.jpg', 'tanam3.jpg'],
-            audio: 'Budi menanam biji bunga di taman. Budi rajin menyiramnya setiap hari. Mengapa? Agar bunga tumbuh indah. Sekarang bunganya sudah mekar!',
-            target: 'Budi menanam bunga di taman agar indah.'
+            fileAudio: 'cerita1.mp3',
+            teks: 'Budi menanam biji bunga di taman. Budi rajin menyiramnya setiap hari. Mengapa? Agar bunga tumbuh indah. Sekarang bunganya sudah mekar!',
         },
         {
             imgs: ['hujan1.jpg', 'hujan2.jpg', 'hujan3.jpg'],
-            audio: 'Langit mendung di luar rumah. Tiba-tiba hujan turun sangat deras. Kakak memakai payung karena tidak mau basah.',
-            target: 'Hujan turun di luar, kakak pakai payung.'
+            fileAudio: 'cerita2.mp3',
+            teks: 'Langit mendung di luar rumah. Tiba-tiba hujan turun sangat deras. Kakak memakai payung karena tidak mau basah.',
         },
         {
             imgs: ['kue1.jpg', 'kue2.jpg', 'kue3.jpeg'],
-            audio: 'Ibu membuat kue di dapur. Kue dipanggang di dalam oven. Anak senang karena makan kue yang lezat.',
-            target: 'Ibu buat kue di dapur, anak senang.'
+            fileAudio: 'cerita3.mp3',
+            teks: 'Ibu membuat kue di dapur. Kue dipanggang di dalam oven. Anak senang karena makan kue yang lezat.',
         }
     ];
 
     let currentIdx = 0;
     let points = 0;
 
+    const audioCerita = document.getElementById('audio-cerita');
+    const audioSukses = document.getElementById('audio-sukses');
+
     function putarCerita() {
-        document.getElementById('story-display').innerText = kumpulanCerita[currentIdx].audio;
-        // Simulasi suara
-        alert("Audio: " + kumpulanCerita[currentIdx].audio);
+        // Tampilkan teks sebagai panduan orang tua
+        document.getElementById('story-display').innerText = kumpulanCerita[currentIdx].teks;
+        
+        // Putar file audio asli
+        audioCerita.src = kumpulanCerita[currentIdx].fileAudio;
+        audioCerita.play().catch(e => {
+            console.error("Gagal memutar audio:", e);
+            alert("Audio tidak ditemukan: " + kumpulanCerita[currentIdx].fileAudio);
+        });
     }
 
     function cekJawaban() {
+        // Putar suara apresiasi
+        audioSukses.currentTime = 0;
+        audioSukses.play();
+
         points++;
         document.getElementById('current-points').innerText = points;
         
-        if (points >= 10) {
-            alert("Luar Biasa! Kamu mendapatkan medali emas poin!");
-            location.href = 'dashboard.html';
+        if (points >= 3) {
+            setTimeout(() => {
+                alert("Luar Biasa! Kamu mendapatkan medali emas poin!");
+                location.href = 'dashboard.html';
+            }, 1000);
         } else {
             document.getElementById('popup-hebat').style.display = 'flex';
         }
@@ -216,10 +229,18 @@
     }
 
     function nextStory() {
+        // Berhenti memutar audio jika sedang berjalan
+        audioCerita.pause();
+        audioCerita.currentTime = 0;
+
         currentIdx = (currentIdx + 1) % kumpulanCerita.length;
+        
+        // Update Gambar
         document.getElementById('img1').src = kumpulanCerita[currentIdx].imgs[0];
         document.getElementById('img2').src = kumpulanCerita[currentIdx].imgs[1];
         document.getElementById('img3').src = kumpulanCerita[currentIdx].imgs[2];
+        
+        // Reset Tampilan Teks
         document.getElementById('story-display').innerText = '🔊 "Tekan tombol audio untuk mendengar cerita."';
     }
 </script>

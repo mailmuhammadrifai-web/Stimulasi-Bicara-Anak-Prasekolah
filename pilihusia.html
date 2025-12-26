@@ -147,6 +147,10 @@
 </head>
 <body>
 
+    <audio id="bgMusic" loop>
+        <source src="musiklatar.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="game-screen">
         <div style="position:absolute; top:20px; left:10%; font-size:40px; opacity:0.6;">☁️</div>
         <div style="position:absolute; top:40px; right:15%; font-size:50px; opacity:0.6;">☁️</div>
@@ -174,7 +178,29 @@
     </div>
 
     <script>
-        // Efek Daun Berguguran
+        // --- LOGIKA AUDIO ---
+        const bgMusic = document.getElementById('bgMusic');
+        bgMusic.volume = 0.5; // Set volume ke 0.5 sesuai permintaan
+
+        // Fungsi untuk memulai musik
+        function startMusic() {
+            bgMusic.play().catch(error => {
+                console.log("Autoplay dicegah oleh browser, menunggu interaksi pengguna.");
+            });
+        }
+
+        // Coba putar saat halaman dimuat
+        window.addEventListener('load', startMusic);
+
+        // Putar musik segera setelah pengguna menyentuh layar (solusi blokir browser)
+        document.body.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                startMusic();
+            }
+        }, { once: true });
+
+
+        // --- EFEK VISUAL ---
         function createLeaf() {
             const container = document.getElementById('leaf-container');
             if(!container) return;
@@ -195,15 +221,10 @@
         }
         setInterval(createLeaf, 800);
 
-        // Fungsi Navigasi ke Halaman Kenalan
+        // --- NAVIGASI ---
         function goKenalan(rangeUsia) {
-            // Simpan pilihan usia agar bisa digunakan di halaman berikutnya
             localStorage.setItem('usiaTerpilih', rangeUsia);
-            
-            // Beri sedikit feedback visual/suara (opsional) sebelum pindah
             console.log("Memilih usia: " + rangeUsia);
-            
-            // Pindah ke halaman ayokenalan.html
             window.location.href = 'ayokenalan.html';
         }
     </script>

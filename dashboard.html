@@ -177,6 +177,10 @@
 </head>
 <body>
 
+    <audio id="bgMusic" loop>
+        <source src="musiklatar.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="game-screen">
         <div id="leaf-container"></div>
 
@@ -215,22 +219,35 @@
     </div>
 
     <script>
+        const audio = document.getElementById('bgMusic');
+        audio.volume = 0.5;
+
+        // Fungsi untuk memulai musik (dipicu interaksi pengguna)
+        function playMusic() {
+            audio.play().catch(error => {
+                console.log("Autoplay dicegah browser, menunggu interaksi...");
+            });
+            // Hapus listener setelah musik berhasil diputar sekali
+            document.removeEventListener('click', playMusic);
+        }
+
         window.onload = function() {
+            // Ambil nama dari profil
             const nama = localStorage.getItem('namaUser');
             if (nama) {
                 document.getElementById('welcomeMsg').innerText = "Halo, " + nama + "! 👋";
             }
+
+            // Tambahkan listener klik untuk memulai musik latar
+            document.addEventListener('click', playMusic);
         };
 
         function navigasi(url) {
             window.location.href = url;
         }
 
-        // Fungsi Keluar
         function keluar() {
             if(confirm("Apakah kamu ingin keluar dan kembali ke halaman utama?")) {
-                // Opsional: Hapus data jika ingin reset total
-                // localStorage.clear(); 
                 window.location.href = 'index.html';
             }
         }

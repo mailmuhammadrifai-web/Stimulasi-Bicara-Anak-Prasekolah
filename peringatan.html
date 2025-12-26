@@ -122,7 +122,6 @@
 
     <audio id="bgMusic" loop>
         <source src="musiklatar.mp3" type="audio/mpeg">
-        Browser Anda tidak mendukung elemen audio.
     </audio>
 
     <div class="game-container blur-bg" id="mainContainer">
@@ -147,21 +146,15 @@
 
     <script>
         const music = document.getElementById('bgMusic');
-        music.volume = 0.05;
+        music.volume = 0.4; 
 
-        // Mencoba memutar musik segera saat halaman dimuat
-        window.addEventListener('load', () => {
-            music.play().catch(error => {
-                console.log("Autoplay diblokir browser. Musik akan aktif setelah interaksi.");
-            });
-        });
+        // Musik akan diputar saat pengguna berinteraksi pertama kali
+        document.body.addEventListener('click', () => {
+            music.play().catch(e => console.log("Autoplay musik diblokir"));
+        }, { once: true });
 
-        // Fungsi menutup modal, memutar musik, lalu pindah halaman
+        // Fungsi menutup modal dan pindah halaman
         function closeModal() {
-            // Putar musik (sebagai pemicu izin audio di browser)
-            music.play();
-            
-            // Memberi sedikit jeda (optional) agar transisi terasa lebih halus sebelum pindah halaman
             setTimeout(() => {
                 window.location.href = 'pilihusia.html';
             }, 300); 
