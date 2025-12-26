@@ -42,14 +42,14 @@
         }
 
         .main-title {
-            margin-top: 60px;
+            margin-top: 80px;
             z-index: 10;
             text-align: center;
         }
 
         .main-title h1 {
             color: #E67E22; 
-            font-size: 2.8rem;
+            font-size: 3.2rem;
             line-height: 1.1;
             text-transform: capitalize;
             -webkit-text-stroke: 1.5px white;
@@ -62,72 +62,52 @@
             50% { transform: translateY(-15px) rotate(1deg); }
         }
 
-        .subtitle {
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-            margin-top: 10px;
-        }
-
-        .selection-area {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            max-width: 500px;
-            margin-top: 40px;
-            z-index: 5;
-        }
-
-        .char-group {
+        /* --- BUTTON START STYLE --- */
+        .start-area {
+            margin-top: 50px;
+            z-index: 10;
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 20px;
         }
 
-        .speech-bubble {
-            background: white;
-            border: 3px solid #555;
-            border-radius: 40px;
-            padding: 15px 25px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-
-        .speech-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-top: 15px solid #555;
-        }
-
-        .label-boy { color: #E67E22; font-weight: bold; }
-        .label-girl { color: #E74C3C; font-weight: bold; }
-
-        .btn-oke {
-            background: #F1C40F;
+        .btn-start {
+            background: #2ECC71;
             border: none;
-            padding: 5px 20px;
-            border-radius: 20px;
+            padding: 20px 50px;
+            font-size: 1.8rem;
+            border-radius: 50px;
             color: white;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 0 #D4AC0D;
-            transition: transform 0.1s;
+            box-shadow: 0 8px 0 #27AE60;
+            transition: all 0.2s;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
         }
 
-        .btn-oke:active { transform: translateY(3px); box-shadow: 0 1px 0 #D4AC0D; }
+        .btn-start:hover {
+            background: #27AE60;
+            transform: scale(1.05);
+        }
 
-        .char-img { font-size: 100px; }
+        .btn-start:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #27AE60;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .char-img-center {
+            font-size: 120px;
+            margin-top: 20px;
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
+        }
 
         .ground {
             position: absolute;
@@ -164,25 +144,11 @@
 
         <div class="main-title">
             <h1>Stimulasi Bicara<br>Anak Prasekolah</h1>
-            <div class="subtitle">Pilih Suara</div>
         </div>
 
-        <div class="selection-area">
-            <div class="char-group">
-                <div class="speech-bubble">
-                    <span class="label-boy">Boy</span>
-                    <button class="btn-oke" onclick="selectVoice('Boy')">Oke</button>
-                </div>
-                <div class="char-img">👦</div>
-            </div>
-
-            <div class="char-group">
-                <div class="speech-bubble">
-                    <span class="label-girl">Girl</span>
-                    <button class="btn-oke" onclick="selectVoice('Girl')">Oke</button>
-                </div>
-                <div class="char-img">👧</div>
-            </div>
+        <div class="start-area">
+            <div class="char-img-center">🧒👧</div>
+            <button class="btn-start" onclick="startLearning()">Mulai Belajar</button>
         </div>
 
         <div class="ground">
@@ -193,34 +159,17 @@
     <audio id="bgMusic" loop autoplay>
         <source src="musiklatar.mp3" type="audio/mpeg">
     </audio>
-    <audio id="voiceInstruction" autoplay>
-        <source src="pilihsuara.mp3" type="audio/mpeg">
-    </audio>
 
     <script>
         /* --- JAVASCRIPT LOGIC --- */
 
         const bgMusic = document.getElementById('bgMusic');
-        const voiceInstruction = document.getElementById('voiceInstruction');
-
-        // Pengaturan Volume
         bgMusic.volume = 0.15;
-        voiceInstruction.volume = 1;
 
-        // Fungsi Autoplay saat halaman dimuat
-        window.addEventListener('load', () => {
-            const playAttempt = () => {
-                bgMusic.play().catch(e => console.log("Autoplay diblokir browser"));
-                voiceInstruction.play().catch(e => console.log("Autoplay diblokir browser"));
-            };
-            
-            playAttempt();
-            
-            // Back-up: Jika autoplay murni gagal, suara akan bunyi begitu kursor bergerak 
-            // atau layar disentuh (interaksi minimal)
-            window.addEventListener('mouseover', playAttempt, { once: true });
-            window.addEventListener('touchstart', playAttempt, { once: true });
-        });
+        // Fungsi navigasi langsung ke peringatan.html
+        function startLearning() {
+            window.location.href = "peringatan.html";
+        }
 
         // Efek Daun Gugur
         function createLeaf() {
@@ -239,13 +188,14 @@
         }
         setInterval(createLeaf, 600);
 
-        function selectVoice(gender) {
-            if (gender === 'Boy') {
-                window.location.href = "peringatan.html";
-            } else {
-                alert("Anda memilih suara: " + gender);
-            }
-        }
+        // Autoplay music handler
+        window.addEventListener('load', () => {
+            const playAttempt = () => {
+                bgMusic.play().catch(e => console.log("Autoplay diblokir browser"));
+            };
+            playAttempt();
+            window.addEventListener('click', playAttempt, { once: true });
+        });
     </script>
 
 </body>

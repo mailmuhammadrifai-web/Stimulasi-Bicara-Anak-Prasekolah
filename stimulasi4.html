@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stimulasi 4 Tahun/48 Bulan - Cerita Gambar</title>
+    <style>
+        :root {
+            --primary-orange: #FF6B35;
+            --bg-blue: #4facfe;
+            --soft-yellow: #FFD93D;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Arial Rounded MT Bold', sans-serif;
+            background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+            text-align: center; color: white;
+        }
+
+        .container { padding: 20px; max-width: 500px; margin: auto; }
+
+        .header h1 {
+            background: #FFADAD; padding: 10px 20px;
+            border-radius: 30px; display: inline-block;
+            box-shadow: 0 5px 0 #ff8a8a; font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .point-badge {
+            background: var(--soft-yellow); color: #333;
+            padding: 8px 20px; border-radius: 20px;
+            font-weight: bold; margin-bottom: 20px; display: inline-block;
+        }
+
+        /* Card Aktivitas */
+        .activity-card {
+            background: white; border-radius: 30px;
+            padding: 20px; margin: 10px 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            color: #333;
+        }
+
+        .visual-box {
+            width: 100%;
+            height: 250px;
+            background: #f0f8ff;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            border: 3px dashed var(--bg-blue);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .visual-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Gambar akan memenuhi area box dengan rapi */
+        }
+
+        .question-box {
+            background: #FF6B35; color: white;
+            padding: 15px; border-radius: 15px;
+            margin-bottom: 20px; font-size: 1.1rem;
+            line-height: 1.4;
+        }
+
+        /* Tombol */
+        .btn-group { display: grid; gap: 10px; }
+        .btn-main {
+            background: white; color: #333; border: none;
+            padding: 15px; border-radius: 20px;
+            font-weight: bold; cursor: pointer;
+            box-shadow: 0 5px 0 #ddd; font-size: 1rem;
+        }
+        .btn-main:active { transform: translateY(3px); box-shadow: none; }
+        
+        .btn-success {
+            background: #2ecc71; color: white;
+            box-shadow: 0 5px 0 #27ae60;
+        }
+
+        /* Navigation */
+        .nav-footer { margin-top: 30px; }
+
+        /* Overlays */
+        .overlay {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.8);
+            z-index: 100; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .popup {
+            background: white; padding: 30px; border-radius: 30px;
+            width: 85%; max-width: 350px; color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header"><h1>CERITA DARI GAMBAR</h1></div>
+    <div class="point-badge">Skor Hebat: <span id="current-points">0</span> / 10</div>
+
+    <div class="activity-card">
+        <div class="visual-box">
+            <img id="visual-img" src="bermainbola.jpg" alt="Aktivitas">
+        </div>
+        
+        <div class="question-box">
+            <span id="audio-text">🔊 "Siapa yang sedang bermain? Apa yang dia lakukan?"</span>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn-main" onclick="putarAudio()">🔊 Ulangi Pertanyaan</button>
+            <button class="btn-main btn-success" onclick="cekJawaban()">✅ Anak Bisa Menjawab</button>
+            <button class="btn-main" style="background: #eee;" onclick="nextStory()">Ganti Gambar ➡️</button>
+        </div>
+    </div>
+
+    <div class="nav-footer">
+        <button class="btn-main" style="width: 100px;" onclick="location.href='pilihusiastimulasi.html'">Kembali</button>
+    </div>
+</div>
+
+<div id="popup-hebat" class="overlay">
+    <div class="popup">
+        <div style="font-size: 50px;">🌟</div>
+        <h2>Hebat Sekali!</h2>
+        <p id="feedback-text">Anak mampu menceritakan gambar dengan baik.</p>
+        <button class="btn-main btn-success" style="width: 100%;" onclick="closePopup()">Oke, Lanjutkan</button>
+    </div>
+</div>
+
+<script>
+    const materi = [
+        { src: 'bermainbola.jpg', q: '🔊 "Lihat! Siapa yang sedang bermain? Apa yang dia lakukan?"' },
+        { src: 'makanapel.png', q: '🔊 "Siapa yang sedang lapar? Dia sedang makan apa?"' },
+        { src: 'naiksepeda.jpg', q: '🔊 "Siapa yang di taman? Apa yang dia kendarai?"' },
+        { src: 'mandi.jpg', q: '🔊 "Siapa yang di kamar mandi? Apa yang dia lakukan?"' },
+        { src: 'ibumenyapu.jpg', q: '🔊 "Siapa yang rajin? Apa yang Ibu lakukan?"' },
+        { src: 'cucimobil.jpg', q: '🔊 "Siapa yang menyetir? Mobilnya warna apa?"' }
+    ];
+
+    let currentIdx = 0;
+    let points = 0;
+
+    function putarAudio() {
+        // Simulasi suara dengan notifikasi teks
+        alert("Suara Pertanyaan: " + materi[currentIdx].q.replace('🔊 ', ''));
+    }
+
+    function cekJawaban() {
+        points++;
+        document.getElementById('current-points').innerText = points;
+        
+        if (points >= 10) {
+            alert("Luar Biasa! Kamu sudah mengumpulkan 10 poin hadiah!");
+            location.href = 'dashboard.html';
+        } else {
+            document.getElementById('popup-hebat').style.display = 'flex';
+        }
+    }
+
+    function closePopup() {
+        document.getElementById('popup-hebat').style.display = 'none';
+        nextStory();
+    }
+
+    function nextStory() {
+        currentIdx = (currentIdx + 1) % materi.length;
+        document.getElementById('visual-img').src = materi[currentIdx].src;
+        document.getElementById('audio-text').innerText = materi[currentIdx].q;
+    }
+</script>
+
+</body>
+</html>

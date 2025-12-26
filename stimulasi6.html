@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stimulasi 6 Tahun/72 Bulan - Mengungkapkan Pendapat</title>
+    <style>
+        :root {
+            --primary-orange: #FF6B35;
+            --bg-blue: #4facfe;
+            --royal-blue: #2980b9;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Arial Rounded MT Bold', sans-serif;
+            background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+            text-align: center; color: white;
+        }
+
+        .container { padding: 20px; max-width: 500px; margin: auto; }
+
+        .header h1 {
+            background: #FFADAD; padding: 10px 20px;
+            border-radius: 30px; display: inline-block;
+            box-shadow: 0 5px 0 #ff8a8a; font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .target-box {
+            font-size: 0.85rem; background: rgba(255,255,255,0.2);
+            padding: 5px 15px; border-radius: 15px; margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .point-badge {
+            background: #FFD93D; color: #333;
+            padding: 8px 20px; border-radius: 20px;
+            font-weight: bold; margin-bottom: 20px; display: block;
+        }
+
+        /* Card Situasi */
+        .situation-card {
+            background: white; border-radius: 30px;
+            padding: 20px; margin: 10px 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            color: #333;
+        }
+
+        .image-container {
+            width: 100%; height: 250px;
+            background: #f8f9fa; border-radius: 20px;
+            margin-bottom: 15px; overflow: hidden;
+            border: 3px solid #eee;
+        }
+
+        .image-container img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+
+        .audio-box {
+            background: #f1f9ff; border: 2px solid var(--bg-blue);
+            padding: 15px; border-radius: 20px;
+            margin-bottom: 20px; font-size: 1rem;
+            color: var(--royal-blue); font-style: italic;
+        }
+
+        /* Buttons */
+        .btn-group { display: grid; gap: 12px; }
+        .btn-main {
+            background: white; color: #333; border: none;
+            padding: 15px; border-radius: 20px;
+            font-weight: bold; cursor: pointer;
+            box-shadow: 0 5px 0 #ddd; font-size: 1rem;
+        }
+        .btn-main:active { transform: translateY(3px); box-shadow: none; }
+        
+        .btn-opinion {
+            background: #2ecc71; color: white;
+            box-shadow: 0 5px 0 #27ae60;
+        }
+
+        .btn-ask {
+            background: var(--primary-orange); color: white;
+            box-shadow: 0 5px 0 #d35400;
+        }
+
+        /* Overlays */
+        .overlay {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.8);
+            z-index: 100; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .popup {
+            background: white; padding: 30px; border-radius: 30px;
+            width: 85%; max-width: 350px; color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header"><h1>CERITAKAN PENDAPATMU</h1></div>
+    <div class="target-box">Target: Kalimat Kompleks & Pendapat</div>
+    
+    <div class="point-badge">Bintang Prestasi: <span id="current-points">0</span> / 10</div>
+
+    <div class="situation-card">
+        <div class="image-container">
+            <img id="situation-img" src="berbagi.jpg" alt="Situasi Sosial">
+        </div>
+        
+        <div class="audio-box">
+            <span id="question-text">🔊 "Menurutmu, apa yang harus dilakukan jika melihat teman yang sedih?"</span>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn-main btn-ask" onclick="putarPertanyaan()">🔊 Dengar Pertanyaan</button>
+            <button class="btn-main btn-opinion" onclick="berhasil()">✅ Anak Berani Berpendapat</button>
+            <button class="btn-main" style="background: #eee;" onclick="nextSituation()">Situasi Lain ➡️</button>
+        </div>
+    </div>
+
+    <div style="margin-top: 25px;">
+        <button class="btn-main" style="width: 130px;" onclick="location.href='pilihusiastimulasi.html'">Kembali</button>
+    </div>
+</div>
+
+<div id="popup-congrats" class="overlay">
+    <div class="popup">
+        <div style="font-size: 60px;">🚀</div>
+        <h2>Luar Biasa!</h2>
+        <p>Anak hebat sudah bisa mengungkapkan pikirannya dengan kalimat yang lengkap.</p>
+        <button class="btn-main btn-opinion" style="width: 100%;" onclick="closePopup()">Lanjutkan</button>
+    </div>
+</div>
+
+<script>
+    const daftarSituasi = [
+        {
+            img: 'berbagi.jpg',
+            q: '🔊 "Jika kamu punya dua kue dan temanmu tidak punya, apa yang akan kamu lakukan? Mengapa?"',
+            hint: 'Contoh: Saya akan berbagi karena kasihan melihat teman tidak makan.'
+        },
+        {
+            img: 'antri.jpg',
+            q: '🔊 "Mengapa kita harus mengantri saat ingin bermain perosotan di sekolah?"',
+            hint: 'Contoh: Supaya tidak berebut dan tidak ada yang jatuh terluka.'
+        },
+        {
+            img: 'bereskanmainan.jpg',
+            q: '🔊 "Apa pendapatmu jika mainan dibiarkan berantakan setelah bermain?"',
+            hint: 'Contoh: Tidak bagus karena nanti rumah jadi kotor dan mainan bisa injak.'
+        },
+        {
+            img: 'tolongteman.jpg',
+            q: '🔊 "Bagaimana perasaanmu jika bisa membantu orang lain? Ceritakan ya!"',
+            hint: 'Contoh: Saya merasa senang sekali karena bisa menjadi anak yang baik.'
+        }
+    ];
+
+    let currentIdx = 0;
+    let points = 0;
+
+    function putarPertanyaan() {
+        alert("Pertanyaan: " + daftarSituasi[currentIdx].q.replace('🔊 ', ''));
+    }
+
+    function berhasil() {
+        points++;
+        document.getElementById('current-points').innerText = points;
+        
+        if (points >= 10) {
+            alert("Selamat! Anak Anda siap untuk tantangan baru di sekolah!");
+            location.href = 'dashboard.html';
+        } else {
+            document.getElementById('popup-congrats').style.display = 'flex';
+        }
+    }
+
+    function closePopup() {
+        document.getElementById('popup-congrats').style.display = 'none';
+        nextSituation();
+    }
+
+    function nextSituation() {
+        currentIdx = (currentIdx + 1) % daftarSituasi.length;
+        document.getElementById('situation-img').src = daftarSituasi[currentIdx].img;
+        document.getElementById('question-text').innerText = daftarSituasi[currentIdx].q;
+    }
+</script>
+
+</body>
+</html>
