@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KPSP 36 Bulan</title>
+    <title>KPSP 48 Bulan (4 Tahun)</title>
     <style>
         :root {
             --primary-orange: #E67E22;
             --text-blue: #3498db;
             --shadow-blue: #2980b9;
+            --bg-light: #f4f7f6;
         }
 
         body, html {
             margin: 0; padding: 0;
-            font-family: 'Arial Rounded MT Bold', sans-serif;
+            font-family: 'Arial Rounded MT Bold', 'Helvetica', sans-serif;
             background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
-            height: 100%;
-            overflow-x: hidden;
+            min-height: 100vh;
         }
 
         .container {
-            width: 90%; max-width: 500px;
+            width: 92%; max-width: 500px;
             margin: 20px auto;
             padding-bottom: 50px;
         }
@@ -28,163 +28,136 @@
         .header { text-align: center; margin-bottom: 20px; }
         .header h1 { 
             color: var(--primary-orange); 
-            font-size: 1.5rem; 
+            font-size: 1.4rem; 
             -webkit-text-stroke: 0.8px white;
             text-shadow: 2px 2px 0px #A04000;
+            margin: 0;
         }
 
         .tool-box {
             background: #fff; padding: 15px;
             border-radius: 15px; margin-bottom: 20px;
-            font-size: 0.9rem; border: 2px solid var(--text-blue);
+            font-size: 0.85rem; border: 2px solid var(--text-blue);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         .question-card {
             background: white; border-radius: 20px;
-            padding: 20px; margin-bottom: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 18px; margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .question-text { font-size: 1rem; color: #333; margin-bottom: 15px; line-height: 1.4; }
+        .cat-badge {
+            font-size: 0.7rem; padding: 3px 10px;
+            border-radius: 10px; color: white;
+            display: inline-block; margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .question-text { font-size: 0.95rem; color: #333; margin-bottom: 15px; line-height: 1.5; }
         
+        .question-img {
+            width: 100%; max-width: 250px;
+            display: block; margin: 10px auto;
+            border-radius: 10px;
+        }
+
         .options { display: flex; gap: 10px; }
         .btn-opt {
-            flex: 1; padding: 10px; border-radius: 10px;
+            flex: 1; padding: 12px; border-radius: 12px;
             border: 2px solid #ddd; background: #f9f9f9;
             cursor: pointer; font-weight: bold; transition: 0.2s;
+            font-size: 1rem;
         }
 
-        .btn-opt.selected-ya { background: #2ecc71; color: white; border-color: #27ae60; }
-        .btn-opt.selected-tidak { background: #e74c3c; color: white; border-color: #c0392b; }
+        .btn-opt.selected-ya { background: #2ecc71; color: white; border-color: #27ae60; box-shadow: 0 4px 0 #27ae60; }
+        .btn-opt.selected-tdk { background: #e74c3c; color: white; border-color: #c0392b; box-shadow: 0 4px 0 #c0392b; }
 
         .result-box {
             display: none; background: white; padding: 25px;
             border-radius: 20px; text-align: center;
             border: 4px solid var(--primary-orange);
+            margin-top: 20px;
         }
 
         .btn-main {
             width: 100%; padding: 15px; background: var(--primary-orange);
             color: white; border: none; border-radius: 25px;
-            font-size: 1.2rem; font-weight: bold; cursor: pointer;
-            margin-top: 10px; box-shadow: 0 4px 0 #A04000;
+            font-size: 1.1rem; font-weight: bold; cursor: pointer;
+            margin-top: 10px; box-shadow: 0 5px 0 #A04000;
         }
 
         .btn-main:active { transform: translateY(3px); box-shadow: none; }
-        
-        /* Styles untuk gambar binatang */
-        .animal-images {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin: 15px 0;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-        
-        .animal-item {
-            text-align: center;
-            flex: 0 0 auto;
-        }
-        
-        .animal-icon {
-            width: 70px;
-            height: 70px;
-            object-fit: cover;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            padding: 5px;
-            background: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .animal-label {
-            font-size: 0.75rem;
-            margin-top: 5px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        
-        .image-instruction {
-            font-size: 0.85rem;
-            color: #7f8c8d;
-            text-align: center;
-            margin-top: 5px;
-            font-style: italic;
-        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1>Kuesioner KPSP<br>Umur 3 Tahun/36 Bulan</h1>
+        <h1>Tes Perkembangan Anak<br>Umur 48 Bulan</h1>
     </div>
 
     <div class="tool-box">
-        <strong>Alat yang dibutuhkan:</strong><br>
-        • 6 buah kubus • Kertas • Pensil<br>
-        • Bola tenis • Gambar Binatang
+        <strong>Persiapkan Alat & Bahan:</strong><br>
+        • 3 buah kubus (atau balok kecil sejenis)<br>
+        • Kertas kosong & Pensil<br>
+        • Gambar Binatang (Kucing, Burung, Kuda, Anjing)
     </div>
 
-    <div id="quiz-container">
-        <!-- Pertanyaan akan di-render oleh JavaScript -->
-    </div>
+    <div id="quiz-container"></div>
 
     <button class="btn-main" onclick="hitungHasil()">Cek Hasil Penilaian</button>
 
     <div id="result" class="result-box">
         <h2 id="result-score">Skor: 0</h2>
-        <p id="result-desc" style="font-weight: bold;"></p>
+        <h3 id="result-desc"></h3>
         <p id="result-info"></p>
-        <button class="btn-main" style="background: var(--text-blue); box-shadow: 0 4px 0 var(--shadow-blue);" onclick="location.href='screening.html'">Kembali</button>
+        <button class="btn-main" style="background: var(--text-blue); box-shadow: 0 5px 0 var(--shadow-blue);" onclick="location.reload()">Ulangi Tes</button>
+        <button class="btn-main" style="background: #95a5a6; box-shadow: 0 5px 0 #7f8c8d; margin-top: 15px;" onclick="location.href='pilihanusiastimulasi.html'">Kembali</button>
     </div>
 </div>
 
 <script>
 const pertanyaan = [
     { 
-        q: "Beri kubus di depan anak. Dapatkah anak menyusun 6 buah kubus satu persatu di atas yang lain tanpa menjatuhkan kubus tersebut?", 
-        cat: "Gerak halus" 
+        q: "Beri contoh membuat jembatan dengan 3 kubus (2 di bawah, 1 di atas tengah). Minta anak melakukan hal yang sama. Dapatkah anak melakukannya?", 
+        cat: "Gerak Halus", color: "#3498db" 
     },
     { 
-        q: "Buat garis lurus ke bawah sepanjang sekurang-kurangnya 2.5 cm. Minta anak untuk mengambar garis lain di samping garis ini. Jawab YA jika anak menggambar garis lurus dan jawab TIDAK jika anak menggambar garis tidak lurus?", 
-        cat: "Gerak halus" 
+        q: "Jangan membantu anak. Beri pensil dan kertas. Minta anak menggambar lingkaran. Dapatkah anak menggambar lingkaran (bukan coretan sembarang)?", 
+        cat: "Gerak Halus", color: "#3498db" 
     },
     { 
-        q: "Tanpa bimbingan, petunjuk, atau bantuan anda, dapatkah anak menyebut 5 gambar (kucing, burung, kuda, anjing, manusia) dengan benar? Menyebut dengan suara binatang tidak ikut di nilai", 
-        cat: "Bicara & Bahasa",
-        hasImages: true // Flag untuk menandai pertanyaan dengan gambar
+        q: "Tunjukkan gambar binatang (kucing, burung, kuda, anjing). Tanyakan: 'Mana yang bisa terbang?', 'Mana yang mengeong?', 'Mana yang meringkik?'. Dapatkah anak menunjuk 2 kegiatan yang sesuai?", 
+        cat: "Bicara & Bahasa", color: "#e74c3c" 
     },
     { 
-        q: "Tanyakan kepada orang tua atau pengasuh, apakah anak dapat memahami perintah yang terdiri dari 2 langkah, misalnya: 'Tolong Ambil bola dan berikan ke Ayah'", 
-        cat: "Bicara & Bahasa" 
+        q: "Dapatkah anak menyebutkan nama lengkapnya tanpa dibantu? (Jawab 'Tidak' jika hanya menyebutkan nama panggilan saja)", 
+        cat: "Bicara & Bahasa", color: "#e74c3c" 
     },
     { 
-        q: "Tanyakan kepada orang tua atau pengasuh, apakah sebagian dari bicara anak dapat dipahami oleh orang asing (yang tidak bertemu setiap hari)?", 
-        cat: "Bicara & Bahasa" 
+        q: "Letakkan 5 kubus di atas meja. Katakan: 'Ambil 1 kubus dan letakkan di atas kertas'. Dapatkah anak melakukan dengan benar (hanya mengambil 1 dan menyebutkan 'Satu')?", 
+        cat: "Bicara & Bahasa", color: "#e74c3c" 
     },
     { 
-        q: "Tanyakan kepada orang tua atau pengasuh, dapatkah anak merangkai kalimat sederhana yang terdiri dari minimal 3 kata, misalnya 'Aku makan roti' atau 'ibu minta susu'?", 
-        cat: "Bicara & Bahasa" 
+        q: "Dapatkah anak menjawab benar 3 pertanyaan kegunaan benda berikut: 1. Kursi? (untuk duduk), 2. Cangkir? (untuk minum), 3. Pensil? (untuk menggambar/menulis).", 
+        cat: "Bicara & Bahasa", color: "#e74c3c" 
     },
     { 
-        q: "Tanyakan kepada orang tua atau pengasuh, dapatkah anak menggosok gigi dengan bantuan?", 
-        cat: "Sosialisasi & Kemandirian" 
+        q: "Dapatkah anak mengikuti peraturan permainan saat bermain dengan teman (misal: ular tangga, petak umpet, dll)?", 
+        cat: "Sosialisasi & Kemandirian", color: "#f1c40f" 
     },
     { 
-        q: "Tanyakan kepada orang tua atau pengasuh, Dapatkah anak mengenakan baju, celana, atau sepatu sendiri (tanpa kancing/tali)?", 
-        cat: "Sosialisasi & Kemandirian" 
+        q: "Dapatkah anak mengenakan kaos (T-shirt) sendiri tanpa dibantu?", 
+        cat: "Sosialisasi & Kemandirian", color: "#f1c40f" 
     },
     { 
-        q: "Tanyakan kepada orang tua atau pengasuh, Dapatkah anak melempar bola dengan lurus ke arah dada Anda dari jarak 1,5 meter?", 
-        cat: "Gerak kasar" 
+        q: "Letakkan selembar kertas di lantai. Minta anak melompatinya. Dapatkah anak melompati bagian lebar kertas dengan mengangkat kedua kaki bersamaan (tanpa lari)?", 
+        cat: "Gerak Kasar", color: "#2ecc71" 
     },
     { 
-        q: "Tanyakan kepada orang tua atau pengasuh, Dapatkah anak melompati bagian lebar kertas dengan kedua kaki bersamaan tanpa lari?", 
-        cat: "Gerak kasar" 
+        q: "Minta anak berdiri 1 kaki tanpa berpegangan. Beri anak 3 kali kesempatan. Dapatkah ia mempertahankan keseimbangan selama 2 detik atau lebih?", 
+        cat: "Gerak Kasar", color: "#2ecc71" 
     }
 ];
 
@@ -192,48 +165,11 @@ let jawaban = Array(10).fill(null);
 
 function renderQuiz() {
     const container = document.getElementById('quiz-container');
-    
     pertanyaan.forEach((item, index) => {
-        let imagesHTML = '';
-        
-        // Tambahkan gambar hanya untuk pertanyaan ketiga (index 2)
-        if (index === 2 && item.hasImages) {
-            imagesHTML = `
-                <div class="animal-images">
-                    <div class="animal-item">
-                        <img src="gambarburung.png" alt="Burung" class="animal-icon" 
-                             onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/1998/1998610.png'">
-                        <div class="animal-label">Burung</div>
-                    </div>
-                    <div class="animal-item">
-                        <img src="gambarkucing.jpeg" alt="Kucing" class="animal-icon"
-                             onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/1998/1998742.png'">
-                        <div class="animal-label">Kucing</div>
-                    </div>
-                    <div class="animal-item">
-                        <img src="gambarmanusia.png" alt="Manusia" class="animal-icon"
-                             onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/1998/1998745.png'">
-                        <div class="animal-label">Manusia</div>
-                    </div>
-                    <div class="animal-item">
-                        <img src="gambaranjing.avif" alt="Anjing" class="animal-icon"
-                             onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/1998/1998618.png'">
-                        <div class="animal-label">Anjing</div>
-                    </div>
-                    <div class="animal-item">
-                        <img src="gambarkuda.jpg" alt="Kuda" class="animal-icon"
-                             onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/1998/1998710.png'">
-                        <div class="animal-label">Kuda</div>
-                    </div>
-                </div>
-                <p class="image-instruction">Tunjukkan gambar-gambar ini kepada anak dan minta ia menyebutkan nama masing-masing</p>
-            `;
-        }
-        
         container.innerHTML += `
             <div class="question-card">
+                <span class="cat-badge" style="background:${item.color}">${item.cat}</span>
                 <p class="question-text"><strong>${index+1}.</strong> ${item.q}</p>
-                ${imagesHTML}
                 <div class="options">
                     <button class="btn-opt" id="ya-${index}" onclick="setJawaban(${index}, 1)">Ya</button>
                     <button class="btn-opt" id="tdk-${index}" onclick="setJawaban(${index}, 0)">Tidak</button>
@@ -246,12 +182,12 @@ function renderQuiz() {
 function setJawaban(idx, val) {
     jawaban[idx] = val;
     document.getElementById(`ya-${idx}`).className = val === 1 ? 'btn-opt selected-ya' : 'btn-opt';
-    document.getElementById(`tdk-${idx}`).className = val === 0 ? 'btn-opt selected-tidak' : 'btn-opt';
+    document.getElementById(`tdk-${idx}`).className = val === 0 ? 'btn-opt selected-tdk' : 'btn-opt';
 }
 
 function hitungHasil() {
     if (jawaban.includes(null)) {
-        alert("Mohon jawab semua pertanyaan terlebih dahulu!");
+        alert("Harap jawab semua pertanyaan agar hasil akurat!");
         return;
     }
 
@@ -261,23 +197,25 @@ function hitungHasil() {
     const descText = document.getElementById('result-desc');
     const infoText = document.getElementById('result-info');
 
-    scoreText.innerText = "Total Skor 'Ya': " + skor;
+    scoreText.innerText = "Skor 'YA': " + skor;
     resBox.style.display = 'block';
-    window.scrollTo(0, document.body.scrollHeight);
-
+    
+    // Logika Interpretasi KPSP
     if (skor >= 9) {
-        descText.innerText = "HASIL: SESUAI (S)";
+        descText.innerText = "SESUAI (S)";
         descText.style.color = "#2ecc71";
-        infoText.innerText = "Perkembangan anak sesuai dengan tahapan usianya. Berikan pujian dan teruskan stimulasi!";
+        infoText.innerText = "Perkembangan anak sesuai dengan usianya. Berikan pujian dan teruskan stimulasi sesuai tahapan selanjutnya!";
     } else if (skor >= 7) {
-        descText.innerText = "HASIL: MERAGUKAN (M)";
-        descText.style.color = "#f1c40f";
-        infoText.innerText = "Lakukan stimulasi lebih sering di rumah selama 2 minggu dan ulangi tes. Jika skor tetap sama, konsultasikan ke tenaga kesehatan.";
+        descText.innerText = "MERAGUKAN (M)";
+        descText.style.color = "#f39c12";
+        infoText.innerText = "Perkembangan anak meragukan. Berikan stimulasi lebih sering pada area yang dijawab 'Tidak' selama 2 minggu, lalu tes kembali. Jika hasil tetap sama, hubungi tenaga kesehatan.";
     } else {
-        descText.innerText = "HASIL: PENYIMPANGAN (P)";
+        descText.innerText = "PENYIMPANGAN (P)";
         descText.style.color = "#e74c3c";
-        infoText.innerText = "Segera bawa anak ke fasilitas kesehatan atau dokter spesialis anak untuk pemeriksaan lebih lanjut.";
+        infoText.innerText = "Kemungkinan ada penyimpangan perkembangan. Segera konsultasikan ke Puskesmas atau Dokter Spesialis Anak untuk pemeriksaan lebih lanjut.";
     }
+
+    resBox.scrollIntoView({ behavior: 'smooth' });
 }
 
 renderQuiz();
