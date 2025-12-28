@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KPSP 36 Bulan</title>
+    <title>KPSP 60 Bulan</title>
     <style>
         :root {
             --primary-orange: #E67E22;
@@ -71,67 +71,23 @@
         }
 
         .btn-main:active { transform: translateY(3px); box-shadow: none; }
-        
-        /* Styles untuk gambar binatang */
-        .animal-images {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin: 15px 0;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-        
-        .animal-item {
-            text-align: center;
-            flex: 0 0 auto;
-        }
-        
-        .animal-icon {
-            width: 70px;
-            height: 70px;
-            object-fit: cover;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            padding: 5px;
-            background: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .animal-label {
-            font-size: 0.75rem;
-            margin-top: 5px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        
-        .image-instruction {
-            font-size: 0.85rem;
-            color: #7f8c8d;
-            text-align: center;
-            margin-top: 5px;
-            font-style: italic;
-        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1>Kuesioner KPSP<br>Umur 3 Tahun/36 Bulan</h1>
+        <h1>Kuesioner KPSP<br>Umur 60 Bulan (5 Tahun)</h1>
     </div>
 
     <div class="tool-box">
         <strong>Alat yang dibutuhkan:</strong><br>
-        • 6 buah kubus • Kertas • Pensil<br>
-        • Bola tenis • Gambar Binatang
+        • Kertas warna-warni<br>
+        • Kertas & Pensil
     </div>
 
     <div id="quiz-container">
-        <!-- Pertanyaan akan di-render oleh JavaScript -->
-    </div>
+        </div>
 
     <button class="btn-main" onclick="hitungHasil()">Cek Hasil Penilaian</button>
 
@@ -145,95 +101,26 @@
 
 <script>
 const pertanyaan = [
-    { 
-        q: "Beri kubus di depan anak. Dapatkah anak menyusun 6 buah kubus satu persatu di atas yang lain tanpa menjatuhkan kubus tersebut?", 
-        cat: "Gerak halus" 
-    },
-    { 
-        q: "Buat garis lurus ke bawah sepanjang sekurang-kurangnya 2.5 cm. Minta anak untuk mengambar garis lain di samping garis ini. Jawab YA jika anak menggambar garis lurus dan jawab TIDAK jika anak menggambar garis tidak lurus?", 
-        cat: "Gerak halus" 
-    },
-    { 
-        q: "Tanpa bimbingan, petunjuk, atau bantuan anda, dapatkah anak menyebut 5 gambar (kucing, burung, kuda, anjing, manusia) dengan benar? Menyebut dengan suara binatang tidak ikut di nilai", 
-        cat: "Bicara & Bahasa",
-        hasImages: true // Flag untuk menandai pertanyaan dengan gambar
-    },
-    { 
-        q: "Tanyakan kepada orang tua atau pengasuh, apakah anak dapat memahami perintah yang terdiri dari 2 langkah, misalnya: 'Tolong Ambil bola dan berikan ke Ayah'", 
-        cat: "Bicara & Bahasa" 
-    },
-    { 
-        q: "Tanyakan kepada orang tua atau pengasuh, apakah sebagian dari bicara anak dapat dipahami oleh orang asing (yang tidak bertemu setiap hari)?", 
-        cat: "Bicara & Bahasa" 
-    },
-    { 
-        q: "Tanyakan kepada orang tua atau pengasuh, dapatkah anak merangkai kalimat sederhana yang terdiri dari minimal 3 kata, misalnya 'Aku makan roti' atau 'ibu minta susu'?", 
-        cat: "Bicara & Bahasa" 
-    },
-    { 
-        q: "Tanyakan kepada orang tua atau pengasuh, dapatkah anak menggosok gigi dengan bantuan?", 
-        cat: "Sosialisasi & Kemandirian" 
-    },
-    { 
-        q: "Tanyakan kepada orang tua atau pengasuh, Dapatkah anak mengenakan baju, celana, atau sepatu sendiri (tanpa kancing/tali)?", 
-        cat: "Sosialisasi & Kemandirian" 
-    },
-    { 
-        q: "Tanyakan kepada orang tua atau pengasuh, Dapatkah anak melempar bola dengan lurus ke arah dada Anda dari jarak 1,5 meter?", 
-        cat: "Gerak kasar" 
-    },
-    { 
-        q: "Tanyakan kepada orang tua atau pengasuh, Dapatkah anak melompati bagian lebar kertas dengan kedua kaki bersamaan tanpa lari?", 
-        cat: "Gerak kasar" 
-    }
+    { q: "Gambarkan dua garis dengan panjang berbeda. Tunjukkan kepada anak dan tanyakan: 'Mana garis yang lebih panjang?' Minta anak menunjuk garis yang lebih panjang. Putar lembar dan ulangi pertanyaan. Apakah anak dapat menunjuk garis yang lebih panjang sebanyak 3 kali dengan benar?", cat: "Gerak halus" },
+    { q: "Berikan anak pensil dan kertas, lalu katakan: \"Buatlah gambar orang\" (anak laki-laki, perempuan, papa, mama, dll). Jangan memberi petunjuk lebih lanjut. Hitung bagian tubuh yang tergambar (bagian berpasangan seperti mata, telinga, tangan, kaki dinilai 1 bagian per pasang). Dapatkah anak menggambar orang dengan setidaknya 3 bagian tubuh?", cat: "Gerak halus" },
+    { q: "Minta anak untuk menyebutkan 4 warna dari kertas warna-warni yang disediakan. Dapatkah anak menyebut keempat warna tersebut dengan benar??", cat: "Bicara & Bahasa" },
+    { q: "Tanyakan kepada anak: 1) \"Apa yang kamu lakukan saat kedinginan?\" (jawaban: pakai jaket, selimut), 2) \"Apa yang kamu lakukan saat kelelahan?\" (jawaban: tidur, istirahat), 3) \"Apa yang kamu lakukan saat lapar?\" (jawaban: makan), 4) \"Apa yang kamu lakukan saat haus?\" (jawaban: minum). Dapatkah anak menjawab 3 pertanyaan terkait kebutuhan tersebut dengan benar??", cat: "Bicara & Bahasa" },
+    { q: "Tanyakan kepada orang tua/pengasuh: Apakah anak dapat mengancingkan bajunya atau pakaian lainnya?", cat: "Sosialisasi & Kemandirian" },
+    { q: "Tanyakan kepada orang tua/pengasuh: Apakah anak bereaksi dengan tenang dan tidak rewel (tanpa menangis atau menggigit) saat ditinggal oleh orang tua/pengasuh?", cat: "Sosialisasi & Kemandirian" },
+    { q: "Dapatkah anak berpakaian sendiri sepenuhnya tanpa dibantu?", cat: "Sosialisasi & Kemandirian" },
+    { q: "Minta anak mengikuti perintah: 1) \"Ambil benda dan letakkan di atas meja\", 2) \"Ambil benda dan letakkan di bawah meja\", 3) \"Ambil benda dan letakkan di dalam laci\", 4) \"Ambil benda dan letakkan di samping ibu\", 5) \"Ambil benda dan letakkan di belakang ibu\". Dapatkah anak melakukan setidaknya 4 perintah (memahami 4 kata depan)?", cat: "Bicara & Bahasa" },
+    { q: "Minta anak berdiri 1 kaki tanpa berpegangan. Beri kesempatan 3 kali. Dapatkah ia mempertahankan keseimbangan dalam waktu 4 detik atau lebih?", cat: "Gerak kasar" },
+    { q: "Minta anak melompat dengan 1 kaki beberapa kali tanpa berpegangan (lompatan dengan 2 kaki tidak dinilai). Dapatkah anak melompat 2-3 kali dengan 1 kaki?", cat: "Gerak kasar" }
 ];
 
 let jawaban = Array(10).fill(null);
 
 function renderQuiz() {
     const container = document.getElementById('quiz-container');
-    
     pertanyaan.forEach((item, index) => {
-        let imagesHTML = '';
-        
-        // Tambahkan gambar hanya untuk pertanyaan ketiga (index 2)
-        if (index === 2 && item.hasImages) {
-            imagesHTML = `
-                <div class="animal-images">
-                    <div class="animal-item">
-                        <img src="gambarburung.png" alt="Burung" class="animal-icon" 
-                             onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/1998/1998610.png'">
-                        <div class="animal-label">Burung</div>
-                    </div>
-                    <div class="animal-item">
-                        <img src="gambarkucing.jpeg" alt="Kucing" class="animal-icon"
-                             onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/1998/1998742.png'">
-                        <div class="animal-label">Kucing</div>
-                    </div>
-                    <div class="animal-item">
-                        <img src="gambarmanusia.png" alt="Manusia" class="animal-icon"
-                             onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/1998/1998745.png'">
-                        <div class="animal-label">Manusia</div>
-                    </div>
-                    <div class="animal-item">
-                        <img src="gambaranjing.avif" alt="Anjing" class="animal-icon"
-                             onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/1998/1998618.png'">
-                        <div class="animal-label">Anjing</div>
-                    </div>
-                    <div class="animal-item">
-                        <img src="gambarkuda.jpg" alt="Kuda" class="animal-icon"
-                             onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/1998/1998710.png'">
-                        <div class="animal-label">Kuda</div>
-                    </div>
-                </div>
-                <p class="image-instruction">Tunjukkan gambar-gambar ini kepada anak dan minta ia menyebutkan nama masing-masing</p>
-            `;
-        }
-        
         container.innerHTML += `
             <div class="question-card">
                 <p class="question-text"><strong>${index+1}.</strong> ${item.q}</p>
-                ${imagesHTML}
                 <div class="options">
                     <button class="btn-opt" id="ya-${index}" onclick="setJawaban(${index}, 1)">Ya</button>
                     <button class="btn-opt" id="tdk-${index}" onclick="setJawaban(${index}, 0)">Tidak</button>
@@ -268,15 +155,15 @@ function hitungHasil() {
     if (skor >= 9) {
         descText.innerText = "HASIL: SESUAI (S)";
         descText.style.color = "#2ecc71";
-        infoText.innerText = "Perkembangan anak sesuai dengan tahapan usianya. Berikan pujian dan teruskan stimulasi!";
+        infoText.innerText = "Perkembangan anak sesuai usia. Teruskan stimulasi harian dan berikan pujian!";
     } else if (skor >= 7) {
         descText.innerText = "HASIL: MERAGUKAN (M)";
         descText.style.color = "#f1c40f";
-        infoText.innerText = "Lakukan stimulasi lebih sering di rumah selama 2 minggu dan ulangi tes. Jika skor tetap sama, konsultasikan ke tenaga kesehatan.";
+        infoText.innerText = "Berikan stimulasi lebih sering pada poin yang dijawab 'Tidak' selama 2 minggu, lalu ulangi tes. Jika tetap, hubungi tenaga kesehatan.";
     } else {
         descText.innerText = "HASIL: PENYIMPANGAN (P)";
         descText.style.color = "#e74c3c";
-        infoText.innerText = "Segera bawa anak ke fasilitas kesehatan atau dokter spesialis anak untuk pemeriksaan lebih lanjut.";
+        infoText.innerText = "Segera konsultasikan dengan Dokter Spesialis Anak atau fasilitas kesehatan terdekat untuk pemeriksaan lebih lanjut.";
     }
 }
 
@@ -284,3 +171,4 @@ renderQuiz();
 </script>
 </body>
 </html>
+
