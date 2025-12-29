@@ -9,6 +9,7 @@
             --primary-orange: #E67E22;
             --text-blue: #3498db;
             --shadow-blue: #2980b9;
+            --button-green: #76C945;
         }
 
         body, html {
@@ -23,11 +24,38 @@
         .game-screen {
             height: 100vh;
             width: 100%;
+            /* Background gradient sebagai fallback */
             background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
+            overflow: hidden;
+        }
+
+        /* Background Image Layer */
+        .background-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 0;
+        }
+
+        /* Overlay untuk meningkatkan keterbacaan */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            z-index: 1;
         }
 
         /* --- Header Judul --- */
@@ -35,6 +63,7 @@
             margin-top: 40px;
             z-index: 10;
             text-align: center;
+            padding: 0 15px;
         }
 
         .header h1 {
@@ -63,24 +92,32 @@
         }
 
         .menu-item {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
             padding: 15px 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            box-shadow: 0 6px 0px #ddd;
-            transition: all 0.2s;
+            box-shadow: 0 6px 0px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
             cursor: pointer;
             border: 3px solid transparent;
             width: 100%;
             box-sizing: border-box;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 0px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 1);
         }
 
         .menu-item:active {
             transform: translateY(4px);
-            box-shadow: 0 2px 0px #ddd;
+            box-shadow: 0 2px 0px rgba(0, 0, 0, 0.1);
         }
 
         /* Memberi warna border berbeda agar ceria */
@@ -95,14 +132,14 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            text-shadow: 1px 1px 0px #eee;
+            text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
         }
 
         /* --- Tombol Kembali --- */
         .btn-kembali {
             position: absolute;
             bottom: 30px;
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             color: #2c3e50;
             border: none;
             padding: 12px 45px;
@@ -111,8 +148,17 @@
             font-weight: bold;
             cursor: pointer;
             z-index: 20;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: 0.2s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+            border: 3px solid rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .btn-kembali:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.2);
         }
 
         .btn-kembali:active {
@@ -125,57 +171,145 @@
             bottom: 0;
             width: 100%;
             height: 12vh;
-            background: #76C945;
+            background: var(--button-green);
             border-top: 5px solid #64B03A;
             border-radius: 50% 50% 0 0 / 20% 20% 0 0;
             z-index: 5;
+            opacity: 0.9;
         }
 
-        .cloud { position: absolute; opacity: 0.6; z-index: 1; pointer-events: none; }
-        .leaf { position: absolute; top: -50px; z-index: 2; pointer-events: none; animation: fall linear infinite; }
+        .cloud { 
+            position: absolute; 
+            opacity: 0.7; 
+            z-index: 2; 
+            pointer-events: none;
+            animation: floatCloud 20s linear infinite;
+            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.1));
+        }
+
+        .leaf { 
+            position: absolute; 
+            top: -50px; 
+            z-index: 1; 
+            pointer-events: none; 
+            animation: fall linear infinite; 
+        }
 
         @keyframes fall {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes floatCloud {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(100vw); }
+        }
+
+        /* Responsif untuk perangkat mobile */
+        @media (max-width: 768px) {
+            .header {
+                margin-top: 30px;
+            }
+            
+            .header h1 {
+                font-size: 1.7rem;
+            }
+            
+            .menu-list {
+                width: 90%;
+                max-width: 350px;
+            }
+            
+            .menu-text {
+                font-size: 1rem;
+            }
+            
+            .btn-kembali {
+                padding: 10px 35px;
+                font-size: 1rem;
+                bottom: 25px;
+            }
+            
+            .ground {
+                height: 10vh;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .menu-list {
+                width: 95%;
+                gap: 10px;
+            }
+            
+            .menu-text {
+                font-size: 0.9rem;
+                letter-spacing: 0.3px;
+            }
+            
+            .btn-kembali {
+                font-size: 0.9rem;
+                padding: 10px 25px;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="game-screen">
+        <!-- Background Layer Baru -->
+        <div class="background-layer"></div>
+        <div class="overlay"></div>
+        
         <div id="leaf-container"></div>
 
-        <div class="cloud" style="top:20px; left:5%; font-size:40px;">☁️</div>
-        <div class="cloud" style="top:60px; right:8%; font-size:50px;">☁️</div>
+        <div class="cloud" style="top:20px; left:5%; font-size:40px; animation-delay: 0s;">☁️</div>
+        <div class="cloud" style="top:60px; right:8%; font-size:50px; animation-delay: 5s;">☁️</div>
+        <div class="cloud" style="top:100px; left:15%; font-size:35px; animation-delay: 10s;">☁️</div>
 
         <div class="header">
-            <h1>Pra Skrining/Penilaian</h1>
+            <h1>Pra Skrining / Penilaian</h1>
         </div>
 
         <div class="menu-list">
-            <button class="menu-item" onclick="location.href='3tahun.html'">
+            <button class="menu-item" onclick="navigateTo('3tahun.html')">
                 <div class="menu-text">36 BULAN / 3 TAHUN</div>
             </button>
 
-            <button class="menu-item" onclick="location.href='4tahun.html'">
+            <button class="menu-item" onclick="navigateTo('4tahun.html')">
                 <div class="menu-text">48 BULAN / 4 TAHUN</div>
             </button>
 
-            <button class="menu-item" onclick="location.href='5tahun.html'">
+            <button class="menu-item" onclick="navigateTo('5tahun.html')">
                 <div class="menu-text">60 BULAN / 5 TAHUN</div>
             </button>
 
-            <button class="menu-item" onclick="location.href='6tahun.html'">
+            <button class="menu-item" onclick="navigateTo('6tahun.html')">
                 <div class="menu-text">72 BULAN / 6 TAHUN</div>
             </button>
         </div>
 
-        <button class="btn-kembali" onclick="location.href='dashboard.html'">Kembali</button>
+        <button class="btn-kembali" onclick="navigateTo('dashboard.html')">Kembali</button>
 
         <div class="ground"></div>
     </div>
 
     <script>
+        // Fungsi navigasi dengan efek transisi
+        function navigateTo(url) {
+            const gameScreen = document.querySelector('.game-screen');
+            gameScreen.style.opacity = '0.8';
+            gameScreen.style.transition = 'opacity 0.3s';
+            
+            setTimeout(() => {
+                window.location.href = url;
+            }, 300);
+        }
+
+        // Animasi Daun Berguguran
         function createLeaf() {
             const container = document.getElementById('leaf-container');
             const leaf = document.createElement('div');
@@ -189,7 +323,16 @@
             container.appendChild(leaf);
             setTimeout(() => leaf.remove(), duration * 1000);
         }
+        
+        // Mulai animasi daun
         setInterval(createLeaf, 800);
+        
+        // Tambahkan beberapa daun saat halaman dimuat
+        window.onload = function() {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(createLeaf, i * 300);
+            }
+        };
     </script>
 </body>
 </html>
