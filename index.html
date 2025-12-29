@@ -18,7 +18,9 @@
         .game-container {
             height: 100vh;
             width: 100%;
-            background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
+            /* UPDATE: Menggunakan background.png */
+            background: url('background.png') no-repeat center center;
+            background-size: cover;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -26,7 +28,16 @@
             overflow: hidden;
         }
 
-        /* --- TOMBOL SUARA BARU --- */
+        /* Overlay halus agar teks tetap mudah dibaca jika background terlalu ramai */
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.1); /* Sesuaikan opacity jika perlu */
+            z-index: 1;
+        }
+
+        /* --- TOMBOL SUARA --- */
         .btn-audio-welcome {
             position: absolute;
             top: 20px;
@@ -52,10 +63,6 @@
             background: #FFF176;
         }
 
-        .btn-audio-welcome:active {
-            transform: scale(0.9);
-        }
-
         @keyframes bounceSoft {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-5px); }
@@ -67,6 +74,7 @@
             color: white;
             opacity: 0.8;
             filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.1));
+            z-index: 2;
         }
         .cloud1 { top: 20px; left: 10%; animation: floatCloud 20s linear infinite; }
         .cloud2 { top: 50px; right: 15%; animation: floatCloud 25s linear reverse infinite; }
@@ -148,18 +156,19 @@
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 20vh;
+            height: 15vh;
             background: #76C945;
             border-top: 8px solid #64B03A;
             border-radius: 50% 50% 0 0 / 20% 20% 0 0;
             display: flex;
             justify-content: center;
+            z-index: 5;
         }
 
         .leaf {
             position: absolute;
             top: -50px;
-            z-index: 1;
+            z-index: 15;
             pointer-events: none;
             animation: fall linear infinite;
         }
@@ -205,48 +214,45 @@
 
     <script>
         /* --- JAVASCRIPT LOGIC --- */
-
         const bgMusic = document.getElementById('bgMusic');
         const welcomeVoice = document.getElementById('welcomeVoice');
-        
-        bgMusic.volume = 0.3; // Volume musik latar diturunkan agar suara selamat datang terdengar jelas
+        bgMusic.volume = 0.3;
 
-        // Fungsi putar suara selamat datang
         function playWelcomeGreeting() {
-            welcomeVoice.currentTime = 0; // Mulai dari awal jika diklik lagi
-            welcomeVoice.play().catch(e => console.log("Gagal memutar suara selamat datang"));
+            welcomeVoice.currentTime = 0;
+            welcomeVoice.play().catch(e => console.log("Gagal memutar suara"));
         }
 
-        // Fungsi navigasi langsung ke peringatan.html
         function startLearning() {
             window.location.href = "peringatan.html";
         }
 
-        // Efek Daun Gugur
+        // Efek Daun Gugur yang lebih halus
         function createLeaf() {
             const leafLayer = document.getElementById('leaf-layer');
+            if(!leafLayer) return;
+            
             const leaf = document.createElement('div');
             const leafTypes = ['🍂', '🍁', '🍃'];
             leaf.classList.add('leaf');
             leaf.innerText = leafTypes[Math.floor(Math.random() * leafTypes.length)];
+            
             const startPos = Math.random() * window.innerWidth;
             const duration = Math.random() * 5 + 5; 
+            
             leaf.style.left = startPos + 'px';
             leaf.style.fontSize = (Math.random() * 20 + 15) + 'px';
             leaf.style.animationDuration = duration + 's';
+            
             leafLayer.appendChild(leaf);
             setTimeout(() => { leaf.remove(); }, duration * 1000);
         }
-        setInterval(createLeaf, 600);
+        setInterval(createLeaf, 800);
 
-        // Autoplay music handler
-        window.addEventListener('load', () => {
-            const playAttempt = () => {
-                bgMusic.play().catch(e => console.log("Autoplay diblokir browser"));
-            };
-            // Coba putar otomatis saat interaksi pertama
-            window.addEventListener('click', playAttempt, { once: true });
-        });
+        // Autoplay Music pada interaksi pertama
+        window.addEventListener('click', () => {
+            bgMusic.play().catch(e => console.log("Autoplay dicegah"));
+        }, { once: true });
     </script>
 
 </body>
