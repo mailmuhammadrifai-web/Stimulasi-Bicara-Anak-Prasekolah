@@ -9,6 +9,7 @@
             --primary-orange: #E67E22;
             --text-blue: #3498db;
             --shadow-blue: #2980b9;
+            --button-green: #76C945;
         }
 
         body, html {
@@ -23,11 +24,38 @@
         .game-screen {
             height: 100vh;
             width: 100%;
+            /* Background gradient tetap sebagai fallback */
             background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
+            overflow: hidden;
+        }
+
+        /* Background Image Layer */
+        .background-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 0;
+        }
+
+        /* Overlay untuk meningkatkan keterbacaan teks */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            z-index: 1;
         }
 
         /* --- Header Judul --- */
@@ -35,6 +63,7 @@
             margin-top: 40px;
             z-index: 10;
             text-align: center;
+            padding: 0 15px;
         }
 
         .header h1 {
@@ -63,18 +92,27 @@
         }
 
         .menu-item {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
             padding: 15px 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            transition: all 0.3s;
             cursor: pointer;
             border: none;
             width: 100%;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 3px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 1);
         }
 
         .menu-item:active {
@@ -88,7 +126,7 @@
             text-transform: uppercase;
             line-height: 1.3;
             -webkit-text-stroke: 0.3px #fff;
-            text-shadow: 1px 1px 0px var(--shadow-blue);
+            text-shadow: 1px 1px 0px rgba(41, 128, 185, 0.3);
         }
 
         /* --- Tombol Kembali --- */
@@ -105,11 +143,21 @@
             cursor: pointer;
             z-index: 20;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            transition: background 0.3s;
+            transition: all 0.3s;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
         .btn-kembali:hover {
             background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-kembali:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
         }
 
         /* --- Latar Belakang & Daun --- */
@@ -118,18 +166,26 @@
             bottom: 0;
             width: 100%;
             height: 15vh;
-            background: #76C945;
+            background: var(--button-green);
             border-top: 5px solid #64B03A;
             border-radius: 50% 50% 0 0 / 20% 20% 0 0;
             z-index: 5;
+            opacity: 0.9;
         }
 
-        .cloud { position: absolute; opacity: 0.8; z-index: 1; }
+        .cloud { 
+            position: absolute; 
+            opacity: 0.8; 
+            z-index: 2; 
+            pointer-events: none;
+            animation: floatCloud 25s linear infinite;
+            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.1));
+        }
 
         .leaf {
             position: absolute;
             top: -50px;
-            z-index: 2;
+            z-index: 1;
             pointer-events: none;
             animation: fall linear infinite;
         }
@@ -138,44 +194,110 @@
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
+
+        @keyframes floatCloud {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(100vw); }
+        }
+
+        /* Responsif untuk perangkat mobile */
+        @media (max-width: 768px) {
+            .header {
+                margin-top: 30px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .menu-list {
+                width: 95%;
+                max-width: 350px;
+            }
+            
+            .menu-text {
+                font-size: 1rem;
+            }
+            
+            .btn-kembali {
+                padding: 10px 25px;
+                font-size: 1rem;
+                bottom: 30px;
+            }
+            
+            .ground {
+                height: 12vh;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .menu-text {
+                font-size: 0.9rem;
+            }
+            
+            .btn-kembali {
+                font-size: 0.9rem;
+                padding: 8px 20px;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="game-screen">
+        <!-- Background Layer Baru -->
+        <div class="background-layer"></div>
+        <div class="overlay"></div>
+        
         <div id="leaf-container"></div>
 
-        <div class="cloud" style="top:20px; left:10%; font-size:40px;">☁️</div>
-        <div class="cloud" style="top:50px; right:15%; font-size:50px;">☁️</div>
+        <div class="cloud" style="top:20px; left:10%; font-size:40px; animation-delay: 0s;">☁️</div>
+        <div class="cloud" style="top:50px; right:15%; font-size:50px; animation-delay: 5s;">☁️</div>
+        <div class="cloud" style="top:100px; left:20%; font-size:35px; animation-delay: 10s;">☁️</div>
 
         <div class="header">
             <h1>Edukasi Orang Tua</h1>
         </div>
 
         <div class="menu-list">
-            <button class="menu-item" onclick="location.href='edukasi1.html'">
+            <button class="menu-item" onclick="navigateTo('edukasi1.html')">
                 <div class="menu-text">APA ITU PERKEMBANGAN<br>BICARA USIA 3-6 TAHUN?</div>
             </button>
 
-            <button class="menu-item" onclick="location.href='edukasi2.html'">
+            <button class="menu-item" onclick="navigateTo('edukasi2.html')">
                 <div class="menu-text">DAMPAK KETERLAMBATAN<br>BICARA</div>
             </button>
 
-            <button class="menu-item" onclick="location.href='edukasi3.html'">
+            <button class="menu-item" onclick="navigateTo('edukasi3.html')">
                 <div class="menu-text">PERAN ORANG TUA DAN<br>LINGKUNGAN</div>
             </button>
 
-            <button class="menu-item" onclick="location.href='edukasi4.html'">
+            <button class="menu-item" onclick="navigateTo('edukasi4.html')">
                 <div class="menu-text">PRINSIP STIMULASI BICARA<br>(R-S-M-I)</div>
             </button>
         </div>
 
-        <button class="btn-kembali" onclick="location.href='dashboard.html'">Kembali</button>
+        <button class="btn-kembali" onclick="navigateTo('dashboard.html')">Kembali</button>
 
         <div class="ground"></div>
     </div>
 
     <script>
+        // Fungsi navigasi dengan efek transisi
+        function navigateTo(url) {
+            const gameScreen = document.querySelector('.game-screen');
+            gameScreen.style.opacity = '0.8';
+            gameScreen.style.transition = 'opacity 0.3s';
+            
+            setTimeout(() => {
+                window.location.href = url;
+            }, 300);
+        }
+
         // Animasi Daun Berguguran
         function createLeaf() {
             const container = document.getElementById('leaf-container');
@@ -191,6 +313,13 @@
             setTimeout(() => leaf.remove(), duration * 1000);
         }
         setInterval(createLeaf, 700);
+        
+        // Tambahkan daun saat halaman dimuat
+        window.onload = function() {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(createLeaf, i * 200);
+            }
+        };
     </script>
 </body>
 </html>
