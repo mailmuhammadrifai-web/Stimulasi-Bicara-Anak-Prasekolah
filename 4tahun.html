@@ -7,113 +7,345 @@
     <style>
         :root {
             --primary-orange: #E67E22;
-            --text-blue: #3498db;
-            --shadow-blue: #2980b9;
+            --primary-blue: #3498db;
+            --success-green: #2ecc71;
+            --warning-yellow: #f1c40f;
+            --danger-red: #e74c3c;
             --bg-light: #f4f7f6;
+            --text-dark: #2c3e50;
         }
 
         body, html {
-            margin: 0; padding: 0;
-            font-family: 'Arial Rounded MT Bold', 'Helvetica', sans-serif;
-            background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
+            margin: 0; 
+            padding: 0;
+            font-family: 'Segoe UI', 'Arial Rounded MT Bold', 'Helvetica', sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             min-height: 100vh;
+            color: var(--text-dark);
         }
 
         .container {
-            width: 92%; max-width: 500px;
+            width: 92%; 
+            max-width: 550px;
             margin: 20px auto;
-            padding-bottom: 50px;
+            padding-bottom: 80px;
         }
 
-        .header { text-align: center; margin-bottom: 20px; }
+        .header { 
+            text-align: center; 
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
         .header h1 { 
             color: var(--primary-orange); 
-            font-size: 1.4rem; 
-            -webkit-text-stroke: 0.8px white;
-            text-shadow: 2px 2px 0px #A04000;
-            margin: 0;
+            font-size: 1.6rem; 
+            margin: 10px 0;
+            line-height: 1.3;
+        }
+        
+        .header p {
+            color: #555;
+            font-size: 0.9rem;
+            margin-top: 5px;
         }
 
         .tool-box {
-            background: #fff; padding: 15px;
-            border-radius: 15px; margin-bottom: 20px;
-            font-size: 0.85rem; border: 2px solid var(--text-blue);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background: #fff; 
+            padding: 20px;
+            border-radius: 15px; 
+            margin-bottom: 25px;
+            font-size: 0.9rem; 
+            border: 3px solid var(--primary-blue);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .tool-box h3 {
+            color: var(--primary-blue);
+            margin-top: 0;
+            padding-bottom: 10px;
         }
 
         .question-card {
-            background: white; border-radius: 20px;
-            padding: 18px; margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: white; 
+            border-radius: 15px;
+            padding: 18px; 
+            margin-bottom: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
-        .cat-badge {
-            font-size: 0.7rem; padding: 3px 10px;
-            border-radius: 10px; color: white;
-            display: inline-block; margin-bottom: 10px;
-            text-transform: uppercase;
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-
-        .question-text { font-size: 0.95rem; color: #333; margin-bottom: 15px; line-height: 1.5; }
         
-        .question-img {
-            width: 100%; max-width: 250px;
-            display: block; margin: 10px auto;
-            border-radius: 10px;
+        .question-number {
+            background: var(--primary-orange);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .question-category {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .cat-gerak-halus {
+            background: #3498db;
+        }
+        
+        .cat-bicara-bahasa {
+            background: #e74c3c;
+        }
+        
+        .cat-sosialisasi {
+            background: #f1c40f;
+        }
+        
+        .cat-gerak-kasar {
+            background: #2ecc71;
         }
 
-        .options { display: flex; gap: 10px; }
+        .question-text { 
+            font-size: 1rem; 
+            color: #333; 
+            margin-bottom: 20px; 
+            line-height: 1.5; 
+        }
+
+        .options { 
+            display: flex; 
+            gap: 15px; 
+        }
+        
         .btn-opt {
-            flex: 1; padding: 12px; border-radius: 12px;
-            border: 2px solid #ddd; background: #f9f9f9;
-            cursor: pointer; font-weight: bold; transition: 0.2s;
+            flex: 1; 
+            padding: 14px; 
+            border-radius: 12px;
+            border: 2px solid #ddd; 
+            background: #f9f9f9;
+            cursor: pointer; 
+            font-weight: bold; 
+            transition: all 0.2s;
             font-size: 1rem;
+            color: #555;
         }
 
-        .btn-opt.selected-ya { background: #2ecc71; color: white; border-color: #27ae60; box-shadow: 0 4px 0 #27ae60; }
-        .btn-opt.selected-tdk { background: #e74c3c; color: white; border-color: #c0392b; box-shadow: 0 4px 0 #c0392b; }
+        .btn-opt:hover {
+            transform: scale(1.03);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+        
+        .btn-opt.selected-ya { 
+            background: #2ecc71; 
+            color: white; 
+            border-color: #27ae60; 
+            box-shadow: 0 4px 0 #27ae60; 
+        }
+        
+        .btn-opt.selected-tdk { 
+            background: #e74c3c; 
+            color: white; 
+            border-color: #c0392b; 
+            box-shadow: 0 4px 0 #c0392b; 
+        }
+
+        .progress-container {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary-orange), #ff9f43);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
 
         .result-box {
-            display: none; background: white; padding: 25px;
-            border-radius: 20px; text-align: center;
-            border: 4px solid var(--primary-orange);
-            margin-top: 20px;
+            display: none; 
+            background: white; 
+            padding: 30px;
+            border-radius: 20px; 
+            text-align: center;
+            border: 5px solid var(--primary-orange);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin-top: 30px;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-score {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 15px 0;
+            color: var(--primary-orange);
+        }
+        
+        .result-desc {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .result-info {
+            font-size: 1.1rem;
+            margin: 20px 0;
+            line-height: 1.6;
+            color: #555;
         }
 
         .btn-main {
-            width: 100%; padding: 15px; background: var(--primary-orange);
-            color: white; border: none; border-radius: 25px;
-            font-size: 1.1rem; font-weight: bold; cursor: pointer;
-            margin-top: 10px; box-shadow: 0 5px 0 #A04000;
+            width: 100%; 
+            padding: 18px; 
+            background: var(--primary-orange);
+            color: white; 
+            border: none; 
+            border-radius: 15px;
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer;
+            margin-top: 10px; 
+            box-shadow: 0 6px 0 #A04000;
+            transition: all 0.2s;
         }
 
-        .btn-main:active { transform: translateY(3px); box-shadow: none; }
+        .btn-main:hover {
+            background: #d35400;
+        }
+        
+        .btn-main:active { 
+            transform: translateY(5px); 
+            box-shadow: none; 
+        }
+        
+        .btn-secondary {
+            background: var(--primary-blue); 
+            box-shadow: 0 6px 0 #1f639b;
+            margin-top: 15px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: white;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                padding-bottom: 100px;
+            }
+            
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            
+            .options {
+                flex-direction: column;
+            }
+            
+            .btn-opt {
+                width: 100%;
+            }
+            
+            .result-score {
+                font-size: 2rem;
+            }
+            
+            .result-desc {
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1>Tes Perkembangan Anak<br>Umur 48 Bulan</h1>
+        <h1>Kuesioner Pra Skrining Perkembangan<br>Umur 48 Bulan (4 Tahun)</h1>
     </div>
 
     <div class="tool-box">
-        <strong>Persiapkan Alat & Bahan:</strong><br>
-        • 3 buah kubus (atau balok kecil sejenis)<br>
-        • Kertas kosong & Pensil<br>
-        • Gambar Binatang (Kucing, Burung, Kuda, Anjing)
+        <h3>Alat dan Bahan yang Diperlukan:</h3>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px;">
+            <div style="padding: 8px; background: #f8f9fa; border-radius: 8px;">• 3 kubus/batok kecil</div>
+            <div style="padding: 8px; background: #f8f9fa; border-radius: 8px;">• Kertas kosong</div>
+            <div style="padding: 8px; background: #f8f9fa; border-radius: 8px;">• Pensil/bolpoin</div>
+            <div style="padding: 8px; background: #f8f9fa; border-radius: 8px;">• Gambar binatang</div>
+        </div>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-text">
+            <span>Progress: <span id="answered-count">0</span>/10 Pertanyaan</span>
+            <span id="progress-percent">0%</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
     </div>
 
     <div id="quiz-container"></div>
 
-    <button class="btn-main" onclick="hitungHasil()">Cek Hasil Penilaian</button>
+    <button class="btn-main" onclick="hitungHasil()" id="submit-btn">Cek Hasil Penilaian</button>
 
     <div id="result" class="result-box">
         <h2 id="result-score">Skor: 0</h2>
-        <h3 id="result-desc"></h3>
-        <p id="result-info"></p>
-        <button class="btn-main" style="background: var(--text-blue); box-shadow: 0 5px 0 var(--shadow-blue);" onclick="location.reload()">Ulangi Tes</button>
-        <button class="btn-main" style="background: #95a5a6; box-shadow: 0 5px 0 #7f8c8d; margin-top: 15px;" onclick="location.href='pilihanusiastimulasi.html'">Kembali</button>
+        <div id="result-desc" class="result-desc">HASIL: BELUM DINILAI</div>
+        <p id="result-info" class="result-info">Silakan lengkapi semua pertanyaan terlebih dahulu.</p>
+        
+        <button class="btn-main" onclick="ulangiTes()">Ulangi Tes</button>
+        <button class="btn-main btn-secondary" onclick="location.href='pilihanusiastimulasi.html'">Kembali ke Menu</button>
+    </div>
+    
+    <div class="footer">
+        <p>KPSP (Kuesioner Pra Skrining Perkembangan) - Kementerian Kesehatan RI</p>
     </div>
 </div>
 
@@ -121,55 +353,71 @@
 const pertanyaan = [
     { 
         q: "Beri contoh membuat jembatan dengan 3 kubus (2 di bawah, 1 di atas tengah). Minta anak melakukan hal yang sama. Dapatkah anak melakukannya?", 
-        cat: "Gerak Halus", color: "#3498db" 
+        cat: "Gerak Halus", 
+        catClass: "cat-gerak-halus"
     },
     { 
         q: "Jangan membantu anak. Beri pensil dan kertas. Minta anak menggambar lingkaran. Dapatkah anak menggambar lingkaran (bukan coretan sembarang)?", 
-        cat: "Gerak Halus", color: "#3498db" 
+        cat: "Gerak Halus", 
+        catClass: "cat-gerak-halus"
     },
     { 
         q: "Tunjukkan gambar binatang (kucing, burung, kuda, anjing). Tanyakan: 'Mana yang bisa terbang?', 'Mana yang mengeong?', 'Mana yang meringkik?'. Dapatkah anak menunjuk 2 kegiatan yang sesuai?", 
-        cat: "Bicara & Bahasa", color: "#e74c3c" 
+        cat: "Bicara & Bahasa", 
+        catClass: "cat-bicara-bahasa"
     },
     { 
         q: "Dapatkah anak menyebutkan nama lengkapnya tanpa dibantu? (Jawab 'Tidak' jika hanya menyebutkan nama panggilan saja)", 
-        cat: "Bicara & Bahasa", color: "#e74c3c" 
+        cat: "Bicara & Bahasa", 
+        catClass: "cat-bicara-bahasa"
     },
     { 
         q: "Letakkan 5 kubus di atas meja. Katakan: 'Ambil 1 kubus dan letakkan di atas kertas'. Dapatkah anak melakukan dengan benar (hanya mengambil 1 dan menyebutkan 'Satu')?", 
-        cat: "Bicara & Bahasa", color: "#e74c3c" 
+        cat: "Bicara & Bahasa", 
+        catClass: "cat-bicara-bahasa"
     },
     { 
         q: "Dapatkah anak menjawab benar 3 pertanyaan kegunaan benda berikut: 1. Kursi? (untuk duduk), 2. Cangkir? (untuk minum), 3. Pensil? (untuk menggambar/menulis).", 
-        cat: "Bicara & Bahasa", color: "#e74c3c" 
+        cat: "Bicara & Bahasa", 
+        catClass: "cat-bicara-bahasa"
     },
     { 
         q: "Dapatkah anak mengikuti peraturan permainan saat bermain dengan teman (misal: ular tangga, petak umpet, dll)?", 
-        cat: "Sosialisasi & Kemandirian", color: "#f1c40f" 
+        cat: "Sosialisasi & Kemandirian", 
+        catClass: "cat-sosialisasi"
     },
     { 
         q: "Dapatkah anak mengenakan kaos (T-shirt) sendiri tanpa dibantu?", 
-        cat: "Sosialisasi & Kemandirian", color: "#f1c40f" 
+        cat: "Sosialisasi & Kemandirian", 
+        catClass: "cat-sosialisasi"
     },
     { 
         q: "Letakkan selembar kertas di lantai. Minta anak melompatinya. Dapatkah anak melompati bagian lebar kertas dengan mengangkat kedua kaki bersamaan (tanpa lari)?", 
-        cat: "Gerak Kasar", color: "#2ecc71" 
+        cat: "Gerak Kasar", 
+        catClass: "cat-gerak-kasar"
     },
     { 
         q: "Minta anak berdiri 1 kaki tanpa berpegangan. Beri anak 3 kali kesempatan. Dapatkah ia mempertahankan keseimbangan selama 2 detik atau lebih?", 
-        cat: "Gerak Kasar", color: "#2ecc71" 
+        cat: "Gerak Kasar", 
+        catClass: "cat-gerak-kasar"
     }
 ];
 
 let jawaban = Array(10).fill(null);
+let answeredCount = 0;
 
 function renderQuiz() {
     const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    
     pertanyaan.forEach((item, index) => {
         container.innerHTML += `
-            <div class="question-card">
-                <span class="cat-badge" style="background:${item.color}">${item.cat}</span>
-                <p class="question-text"><strong>${index+1}.</strong> ${item.q}</p>
+            <div class="question-card" id="q-${index}">
+                <div class="question-header">
+                    <div class="question-number">${index+1}</div>
+                    <div class="question-category ${item.catClass}">${item.cat}</div>
+                </div>
+                <p class="question-text">${item.q}</p>
                 <div class="options">
                     <button class="btn-opt" id="ya-${index}" onclick="setJawaban(${index}, 1)">Ya</button>
                     <button class="btn-opt" id="tdk-${index}" onclick="setJawaban(${index}, 0)">Tidak</button>
@@ -177,17 +425,55 @@ function renderQuiz() {
             </div>
         `;
     });
+    
+    updateProgress();
 }
 
 function setJawaban(idx, val) {
     jawaban[idx] = val;
+    
     document.getElementById(`ya-${idx}`).className = val === 1 ? 'btn-opt selected-ya' : 'btn-opt';
     document.getElementById(`tdk-${idx}`).className = val === 0 ? 'btn-opt selected-tdk' : 'btn-opt';
+    
+    answeredCount = jawaban.filter(answer => answer !== null).length;
+    updateProgress();
+}
+
+function updateProgress() {
+    const answeredCountElement = document.getElementById('answered-count');
+    const progressPercentElement = document.getElementById('progress-percent');
+    const progressFillElement = document.getElementById('progress-fill');
+    const submitBtn = document.getElementById('submit-btn');
+    
+    answeredCountElement.textContent = answeredCount;
+    const percent = Math.round((answeredCount / pertanyaan.length) * 100);
+    progressPercentElement.textContent = `${percent}%`;
+    progressFillElement.style.width = `${percent}%`;
+    
+    if (answeredCount === pertanyaan.length) {
+        submitBtn.innerHTML = "✅ Cek Hasil Penilaian";
+    } else {
+        submitBtn.innerHTML = `Cek Hasil (${answeredCount}/${pertanyaan.length})`;
+    }
 }
 
 function hitungHasil() {
     if (jawaban.includes(null)) {
-        alert("Harap jawab semua pertanyaan agar hasil akurat!");
+        alert(`Silakan lengkapi semua pertanyaan terlebih dahulu!\nMasih ada ${pertanyaan.length - answeredCount} pertanyaan yang belum dijawab.`);
+        
+        const firstUnanswered = jawaban.findIndex(answer => answer === null);
+        if (firstUnanswered !== -1) {
+            document.getElementById(`q-${firstUnanswered}`).scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+            
+            const questionCard = document.getElementById(`q-${firstUnanswered}`);
+            questionCard.style.boxShadow = '0 0 0 3px #e74c3c';
+            setTimeout(() => {
+                questionCard.style.boxShadow = '';
+            }, 2000);
+        }
         return;
     }
 
@@ -197,28 +483,53 @@ function hitungHasil() {
     const descText = document.getElementById('result-desc');
     const infoText = document.getElementById('result-info');
 
-    scoreText.innerText = "Skor 'YA': " + skor;
-    resBox.style.display = 'block';
+    scoreText.innerText = "Total Skor 'Ya': " + skor + "/10";
     
-    // Logika Interpretasi KPSP
+    let hasil, warna, info;
+    
     if (skor >= 9) {
-        descText.innerText = "SESUAI (S)";
-        descText.style.color = "#2ecc71";
-        infoText.innerText = "Perkembangan anak sesuai dengan usianya. Berikan pujian dan teruskan stimulasi sesuai tahapan selanjutnya!";
+        hasil = "SESUAI (S)";
+        warna = "#2ecc71";
+        info = "Perkembangan anak SESUAI dengan tahapan usianya. Berikan pujian dan teruskan stimulasi sesuai perkembangan usia 4 tahun.";
     } else if (skor >= 7) {
-        descText.innerText = "MERAGUKAN (M)";
-        descText.style.color = "#f39c12";
-        infoText.innerText = "Perkembangan anak meragukan. Berikan stimulasi lebih sering pada area yang dijawab 'Tidak' selama 2 minggu, lalu tes kembali. Jika hasil tetap sama, hubungi tenaga kesehatan.";
+        hasil = "MERAGUKAN (M)";
+        warna = "#f1c40f";
+        info = "Perkembangan anak MERAGUKAN. Berikan stimulasi lebih sering pada area yang dijawab 'Tidak' selama 2 minggu, lalu tes kembali.";
     } else {
-        descText.innerText = "PENYIMPANGAN (P)";
-        descText.style.color = "#e74c3c";
-        infoText.innerText = "Kemungkinan ada penyimpangan perkembangan. Segera konsultasikan ke Puskesmas atau Dokter Spesialis Anak untuk pemeriksaan lebih lanjut.";
+        hasil = "PENYIMPANGAN (P)";
+        warna = "#e74c3c";
+        info = "Kemungkinan ada PENYIMPANGAN perkembangan. Segera konsultasikan ke tenaga kesehatan untuk pemeriksaan lebih lanjut.";
     }
-
-    resBox.scrollIntoView({ behavior: 'smooth' });
+    
+    descText.innerText = "HASIL: " + hasil;
+    descText.style.backgroundColor = warna + "20";
+    descText.style.color = warna;
+    descText.style.border = `2px solid ${warna}`;
+    
+    infoText.innerText = info;
+    
+    resBox.style.display = 'block';
+    resBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    document.title = `KPSP 48 Bulan - Hasil: ${hasil}`;
 }
 
-renderQuiz();
+function ulangiTes() {
+    jawaban = Array(10).fill(null);
+    answeredCount = 0;
+    
+    renderQuiz();
+    
+    document.getElementById('result').style.display = 'none';
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    document.title = "KPSP 48 Bulan (4 Tahun)";
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    renderQuiz();
+});
 </script>
 </body>
 </html>
